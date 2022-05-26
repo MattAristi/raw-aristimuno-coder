@@ -113,6 +113,22 @@ function login() {
         salidaAdmin = true;
 
     }
+    if (adminEmail == userEmail1 && adminPasword != userPasword1) {
+        do {
+            blocked = blocked + 1;
+            if (blocked > 2) {
+                alert("Tu usuario ha sido bloqueado")
+                break;
+            }
+            alert("administrador" + " tu contraseña es incorrecta, te quedan " + (3 - blocked) + " intentos.")
+            pasword();
+            if (adminPasword == userPasword1) {
+                alert("Comencemos con la compra!");
+                logIn = true;
+            }
+
+        } while (adminPasword != userPasword1 || blocked >= 3);
+    }
 
 }
 
