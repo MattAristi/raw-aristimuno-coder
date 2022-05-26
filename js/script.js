@@ -10,7 +10,6 @@ let adminPasword = "x";
 let userFullName;
 let condicion = 0;
 let logIn = false;
-let adminLog = 0
 let userWanted;
 let blocked = 0;
 let nan = 0;
@@ -108,7 +107,6 @@ function login() {
         tryAgain();
     }
     if (userEmail1 == adminEmail && userPasword1 == adminPasword) {
-        adminLog = 1;
         alert("bienvenido a la cuenta del administrador")
         salidaAdmin = true;
 
@@ -123,8 +121,9 @@ function login() {
             alert("administrador" + " tu contraseña es incorrecta, te quedan " + (3 - blocked) + " intentos.")
             pasword();
             if (adminPasword == userPasword1) {
-                alert("Comencemos con la compra!");
-                logIn = true;
+                alert("bienvenido a la cuenta del administrador")
+                salidaAdmin = true;
+
             }
 
         } while (adminPasword != userPasword1 || blocked >= 3);
