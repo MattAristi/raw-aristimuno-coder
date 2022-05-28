@@ -285,12 +285,15 @@ while (salidaAdmin) {
             agregarArticulo = false;
 
         }
+        if (ingreso.toUpperCase()!="X") {
         let datos = ingreso.split('/')
         console.log(datos);
         const producto = new Producto(datos[0], datos[1], parseFloat(datos[2]), datos[3], datos[4], datos[5], parseInt(datos[6]), productos.length + 1)
         productos.push(producto);
+        alert ("Ud. acaba de agregar el ID nro: "+productos.length +"\n Tipo: " +datos[0]+ "\n Modelo: "+datos[1]+"\n Precio: $"+datos[2]+ "\n Material: "+datos[3]+"\n Color: "+datos[4]+"\n Medidas: "+datos[5]+'" \n Cantidad: '+datos[6]+" unidades");
 
         console.log(productos);
+        }
 
 
     }
