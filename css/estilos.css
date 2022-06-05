@@ -1,0 +1,161 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: sans-serif;
+
+}
+body {
+    background-image: url(../imagenesraw/muelle2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+main {
+    display: flex;
+    max-width: 100%;
+    padding: 20px;
+    margin-top: 100px;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+}
+.cfondo {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.323);
+}
+.cfondo div {
+    margin: 100px 40px;
+    color: white;
+    transition: all 500ms;
+
+}
+.cfondo div p,
+.cfondo div button {
+    margin-top: 30px;
+
+}
+.cfondo div h3{
+    font-weight: 400;
+    font-size: 26px;
+
+}
+.cfondo button{
+    padding: 10px 40px;
+    border: 2px solid rgba(0, 0, 0, 0.706);
+    background-color: transparent;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    transition: 300ms;
+}
+.cfondo button:hover {
+    background-color: black;
+}
+.container__register{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 350px;
+    position: relative;
+    top: -200px;
+    left: 10px;
+}
+.container__register form{
+    width: 100%;
+    padding: 80px 20px;
+    background: #fff;
+    position: absolute;
+    border-radius: 15px;
+
+}
+.container__register form h2{
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    color:rgba(0, 0, 0, 0.323);
+}
+
+.container__register form input {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background: #f2f2f2;
+    font-size: 16px;
+    outline: none;
+
+}
+.container__register form  button{
+    padding: 10px 40px;
+    margin-top: 40px;
+    font-size: 14px;
+    background-color:rgba(0, 0, 0, 0.323) ;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+}
+.form__login {
+    opacity: 1;
+    display: block;
+}
+.form__register{
+    display: none;
+}
+@media screen and (max-width:850px){
+    main {
+        margin-top: 50px;
+    }
+    .cfondo {
+        flex-direction: column;
+        max-width: 350px;
+        height: 300px;
+        margin: auto;
+    }
+    .cfondo div {
+        margin: 0px;
+        position: absolute;
+
+    }
+    .container__register{
+        top: -10px;
+        left: -5px;
+        margin: auto;
+    }
+    .container__register form{
+        position: relative;
+    }
+}
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.logov {
+
+    max-width: 200px;
+    max-height: auto;
+    margin-left: 20px;
+}
+.header__nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-right: 20px;
+}

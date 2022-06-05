@@ -18,6 +18,20 @@ let cambiarPrecio = false;
 let cambiarStock = false;
 let opcionesAdm;
 let salidaAdmin;
+const containerRegister = document.querySelector(".container__register");
+const formLogin = document.querySelector(".form__login");
+const formRegister = document.querySelector(".form__register");
+const cFondoLogin = document.querySelector(".cfondo-login");
+const cFondoRegister = document.querySelector(".cfondo-register");
+
+const eMailUsuario = document.querySelector("#email-usuario");
+const contraseña = document.querySelector("#password");
+const nombreCompleto = document.querySelector("#nombre-completo");
+const fechaNacimiento = document.querySelector("#fecha-n");
+const eMail = document.querySelector("#e-mail");
+const usuario = document.querySelector("#usuario");
+const gPassword = document.querySelector("#g-password");
+
 
 function saludoOut(){
     alert("Muy bien! Quedate mirando nuestros productos! Para logearte reiniciá la web");
@@ -35,6 +49,39 @@ function pasword() {
 function respuestaErronea(condicion1) {
     if (condicion1 != "si" && condicion1 != "no") {
     respuestaSiNo();
+    }
+}
+
+
+function loginForm () {
+    if (window.innerWidth > 850){
+        formRegister.style.display = "none";
+        containerRegister.style.left = "10px";
+        formLogin.style.display = "block";
+        cFondoRegister.style.opacity = "1";
+        cFondoLogin.style.opacity = "0";
+    }else {
+        formRegister.style.display = "none";
+        containerRegister.style.left = "0px";
+        formLogin.style.display = "block";
+        cFondoRegister.style.display = "block";
+        cFondoLogin.style.display = "none";
+    }   
+}
+function registerForm () {
+    if (window.innerWidth > 850){
+        formRegister.style.display = "block";
+        containerRegister.style.left = "410px";
+        formLogin.style.display = "none";
+        cFondoRegister.style.opacity = "0";
+        cFondoLogin.style.opacity = "1";
+    }else {
+        formRegister.style.display = "block";
+        containerRegister.style.left = "0px";
+        formLogin.style.display = "none";
+        cFondoRegister.style.display = "none";
+        cFondoLogin.style.display = "block";
+        cFondoLogin.style.opacity = "1";
     }
 }
 
@@ -78,7 +125,6 @@ function firstLogin() {
 }
 
 function login() {
-    log = 0;
     userEmail1 = prompt("Ingresá tu e-mail. (si eres el administrador recuerda que tu email es 'admin@raw.com')");
     pasword();
     if (userEmail == userEmail1 && userPasword == userPasword1 && userEmail1 != adminEmail) {
@@ -205,6 +251,10 @@ const productos = [
 ]
 
 console.log(productos);
+loginForm();
+// document.getElementById("btn-login").addEventListener("click", inicio);
+document.getElementById("btn__iniciar-session").addEventListener("click", loginForm);
+document.getElementById("btn__register").addEventListener("click", registerForm);
 
 inicio();
 
