@@ -154,15 +154,13 @@ function register() {
         alert("Usuario genereado exitosamente.");
         comprar();
     });
-}
+};
 
 
 
 register();
 
 inicio();
-
-  
 
 
 function administrador() {
@@ -256,5 +254,6 @@ function administrador() {
     }
 }
 function comprar(){
+    if (logIn)
     alert("Carga tu carrito!")
 }
