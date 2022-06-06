@@ -1,13 +1,6 @@
-let userName;
 let userLastName;
-let userEmail;
-let userEmail1;
 let adminEmail = "admin@raw.com";
-let userAge;
-let userPasword;
-let userPasword1;
 let adminPasword = "x";
-let userFullName;
 let condicion = 0;
 let logIn = false;
 let userWanted;
@@ -18,64 +11,45 @@ let cambiarPrecio = false;
 let cambiarStock = false;
 let opcionesAdm;
 let salidaAdmin;
+let userEmail1;
+let userPasword1;
+let userName;
+let userAge;
+let userEmail;
+let user;
+let userPasword;
+
 const containerRegister = document.querySelector(".container__register");
 const formLogin = document.querySelector(".form__login");
 const formRegister = document.querySelector(".form__register");
 const cFondoLogin = document.querySelector(".cfondo-login");
 const cFondoRegister = document.querySelector(".cfondo-register");
 
-const eMailUsuario = document.querySelector("#email-usuario");
-const contraseña = document.querySelector("#password");
-const nombreCompleto = document.querySelector("#nombre-completo");
-const fechaNacimiento = document.querySelector("#fecha-n");
-const eMail = document.querySelector("#e-mail");
-const usuario = document.querySelector("#usuario");
-const gPassword = document.querySelector("#g-password");
 
-
-function saludoOut(){
-    alert("Muy bien! Quedate mirando nuestros productos! Para logearte reiniciá la web");
-}
-
-
-function respuestaSiNo() {
-    alert("Solo podes utilizar 'si' o 'no' como respuesta.");
-}
-
-function pasword() {
-    userPasword1 = prompt("Ingresá tu contraseña. (para el admin solo una x)");
-}
-
-function respuestaErronea(condicion1) {
-    if (condicion1 != "si" && condicion1 != "no") {
-    respuestaSiNo();
-    }
-}
-
-
-function loginForm () {
-    if (window.innerWidth > 850){
+function loginForm() {
+    if (window.innerWidth > 850) {
         formRegister.style.display = "none";
         containerRegister.style.left = "10px";
         formLogin.style.display = "block";
         cFondoRegister.style.opacity = "1";
         cFondoLogin.style.opacity = "0";
-    }else {
+    } else {
         formRegister.style.display = "none";
         containerRegister.style.left = "0px";
         formLogin.style.display = "block";
         cFondoRegister.style.display = "block";
         cFondoLogin.style.display = "none";
-    }   
+    }
 }
-function registerForm () {
-    if (window.innerWidth > 850){
+
+function registerForm() {
+    if (window.innerWidth > 850) {
         formRegister.style.display = "block";
         containerRegister.style.left = "410px";
         formLogin.style.display = "none";
         cFondoRegister.style.opacity = "0";
         cFondoLogin.style.opacity = "1";
-    }else {
+    } else {
         formRegister.style.display = "block";
         containerRegister.style.left = "0px";
         formLogin.style.display = "none";
@@ -84,129 +58,40 @@ function registerForm () {
         cFondoLogin.style.opacity = "1";
     }
 }
-
-function tryAgain() {
-    userWanted = prompt("Has ingresado una contraseña erronea. ¿Queres intentar nuevamente?");
-    if (userWanted == "si") {
-        login()
-    }
-    if (userWanted == "no") {
-        alert("Muy bien! Quedate mirando nuestros productos! Para logearte reiniciá la web")
-    } 
-    else if (userWanted != "si" && userWanted != "no") {
-        respuestaSiNo();
-        tryAgain()
-    }
-}
-
-function firstLogin() {
-    condicion = 0
-    userAge = parseInt(prompt("Ingresá tu edad en numeros."));
-
-    if (!isNaN(userAge)) {
-        if (userAge <= 16) {
-            alert("No podremos generar un usuario si sos menor de 16 años. \nContinua en el sitio viendo nuestros productos.");
-            condicion = 1;
-        }
-
-    }
-    if (isNaN(userAge)) {
-        alert("Solo podes ingresar numeros enteros.")
-        firstLogin();
-    } else if (userAge > 15) {
-        userName = prompt("Ingresa tu nombre.");
-        userLastName = prompt("Ingresa tu apellido.");
-        userFullName = userName + " " + userLastName;
-        userFullName = userFullName.toUpperCase();
-        userEmail = prompt("Ingresa tu e-mail.");
-        userPasword = prompt("Creá tu contraseña.");
-    }
-
-}
+document.getElementById("btn__iniciar-session").addEventListener("click", loginForm);
+document.getElementById("btn__register").addEventListener("click", registerForm);
 
 function login() {
-    userEmail1 = prompt("Ingresá tu e-mail. (si eres el administrador recuerda que tu email es 'admin@raw.com')");
-    pasword();
+
+    console.log(userEmail1)
     if (userEmail == userEmail1 && userPasword == userPasword1 && userEmail1 != adminEmail) {
         alert("Comencemos con la compra!");
         logIn = true;
     }
     if (userEmail == userEmail1 && userPasword != userPasword1 && userEmail1 != adminEmail) {
-        do {
-            blocked = blocked + 1;
-            if (blocked > 2) {
-                alert("Tu usuario ha sido bloqueado")
-                break;
-            }
-            alert(userName + " tu contraseña es incorrecta, te quedan " + (3 - blocked) + " intentos.")
-            pasword();
-            if (userPasword == userPasword1) {
-                alert("Comencemos con la compra!");
-                logIn = true;
-            }
-
-        } while (userPasword != userPasword1 || blocked >= 3);
+        alert(userName + " tu contraseña es incorrecta.")
+        inicio();
     }
 
     if (userEmail != userEmail1 && userEmail != adminEmail && adminEmail != userEmail1) {
-        alert("Tus datos son incorrectos")
-        tryAgain();
+        alert("Tus datos son incorrectos");
+        inicio();
+
     }
     if (userEmail1 == adminEmail && userPasword1 == adminPasword) {
         alert("bienvenido a la cuenta del administrador")
         salidaAdmin = true;
+        administrador();
 
     }
     if (adminEmail == userEmail1 && adminPasword != userPasword1) {
-        do {
-            blocked = blocked + 1;
-            if (blocked > 2) {
-                alert("Tu usuario ha sido bloqueado")
-                break;
-            }
-            alert("administrador" + " tu contraseña es incorrecta, te quedan " + (3 - blocked) + " intentos.")
-            pasword();
-            if (adminPasword == userPasword1) {
-                alert("bienvenido a la cuenta del administrador")
-                salidaAdmin = true;
+        alert("tu contraseña es incorrecta.");
 
-            }
-
-        } while (adminPasword != userPasword1 || blocked >= 3);
     }
-
 }
-
-function inicio() {
-    let respuesta = prompt("Deseas loguerte? (si/no)");
-    if (respuesta == "si") {
-        let respuesta2 = prompt("Estás registrado? (si/no)");
-        if (respuesta2 == "si") {
-            login()
-        }
-        if (respuesta2 == "no") {
-            firstLogin()
-            if (condicion != 1) {
-                alert("Ya eres miembro de la comunidad " + userFullName + ". deberías logearte para comenzar. ");
-                login();
-            }
-        } else if (respuesta2 != "no" && respuesta2 != "si") {
-            respuestaSiNo();
-            inicio();
-        }
-
-
-
-    } else if (respuesta == "no") {
-        saludoOut();
-        logIn = false;
-    } else if (respuesta != "no") {
-        respuestaSiNo();
-        inicio();
-    };
+function comprar(){
+    alert("Carga tu carrito!")
 }
-
-
 
 class Producto {
     constructor(tipo, modelo, precio, material, color, size, cantidad, id) {
@@ -249,102 +134,126 @@ const productos = [
     new Producto("Portaequipaje", "trasero", 2500, "acero", "black", "28", 20, 23),
     new Producto("Portaequipaje", "trasero", 2500, "acero", "metali", "28", 20, 24),
 ]
+function inicio() {
+    document.getElementById("btn__login").addEventListener("click", () => {
+        userEmail1 = document.querySelector("#email-usuario").value;
+        userPasword1 = document.querySelector("#password").value;
+        console.log(userEmail1, userPasword1)
+        login();
+    });
 
-console.log(productos);
-loginForm();
-// document.getElementById("btn-login").addEventListener("click", inicio);
-document.getElementById("btn__iniciar-session").addEventListener("click", loginForm);
-document.getElementById("btn__register").addEventListener("click", registerForm);
+}
+
+function register() {
+    document.getElementById("btn__ingresardatos").addEventListener("click", () => {
+        userName = document.querySelector("#nombre-completo").value;
+        userAge = document.querySelector("#fecha-n").value;
+        userEmail = document.querySelector("#e-mail").value;
+        user = document.querySelector("#usuario").value;
+        userPasword = document.querySelector("#g-password").value;
+        console.log(userName, userAge, userEmail, user, userPasword)
+        logIn = true;
+        alert("Usuario genereado exitosamente.");
+        comprar();
+    });
+}
+
+
+
+register();
 
 inicio();
 
+  
 
 
-while (salidaAdmin) {
-    opcionesAdm = parseInt(prompt("Elegí entre estas opciones ingresando solo el número de la opción indicada:\n 1 - Agregar un artícullo. \n 2 - Cambiar Precio. \n 3 - Cambiar stock. \n 4 - Salir.  "));
+function administrador() {
+    while (salidaAdmin) {
+        opcionesAdm = parseInt(prompt("Elegí entre estas opciones ingresando solo el número de la opción indicada:\n 1 - Agregar un artícullo. \n 2 - Cambiar Precio. \n 3 - Cambiar stock. \n 4 - Salir.  "));
 
-    switch (opcionesAdm) {
-        case 1:
-            agregarArticulo = true;
-            break
-        case 2:
-            cambiarPrecio = true;
-            break
-        case 3:
-            cambiarStock = true;
-            break
+        switch (opcionesAdm) {
+            case 1:
+                agregarArticulo = true;
+                break
+            case 2:
+                cambiarPrecio = true;
+                break
+            case 3:
+                cambiarStock = true;
+                break
 
-        case 4:
-            salidaAdmin = false;
-            break
-    }
-
-    while (cambiarPrecio) {
-        let ingreso = prompt("Ingresá los datos del producto a modificar: Id, precio nuevo, separados por uhna barra diagonal (/), ingrersá x para salir. ");
-        if (ingreso.toUpperCase() == "X") {
-            cambiarPrecio = false;
-
-
+            case 4:
+                salidaAdmin = false;
+                break
         }
-        let idCambioPrecio = ingreso.split("/");
-        console.log(idCambioPrecio);
-        productos.forEach(element => {
-            if (element.id == idCambioPrecio[0]) {
-                element.precio = parseFloat(idCambioPrecio[1]);
-                alert("El id nro " + element.id + " ahora vale $" + element.precio + ".")
+
+        while (cambiarPrecio) {
+            let ingreso = prompt("Ingresá los datos del producto a modificar: Id, precio nuevo, separados por uhna barra diagonal (/), ingrersá x para salir. ");
+            if (ingreso.toUpperCase() == "X") {
+                cambiarPrecio = false;
+
+
             }
-        })
-    }
-
-    while (cambiarStock) {
-        let ingreso = prompt("Ingresá los datos del producto a modificar: Id, 'agregar' o 'quitar', cantidad,  separados por una barra diagonal (/), ingrersá x para salir. ");
-        if (ingreso.toUpperCase() == "X") {
-            cambiarStock = false;
-
-
+            let idCambioPrecio = ingreso.split("/");
+            console.log(idCambioPrecio);
+            productos.forEach(element => {
+                if (element.id == idCambioPrecio[0]) {
+                    element.precio = parseFloat(idCambioPrecio[1]);
+                    alert("El id nro " + element.id + " ahora vale $" + element.precio + ".")
+                }
+            })
         }
-        let idCambioStock = ingreso.split("/");
-        if (idCambioStock[1] == "agregar" || idCambioStock[1] == "quitar") {
-            if (idCambioStock[1] == "agregar") {
-                console.log(idCambioStock);
-                productos.forEach(element => {
-                    if (element.id == idCambioStock[0]) {
-                        element.cantidad =parseInt(element.cantidad) + parseInt(idCambioStock[2]);
-                        alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
-                    }
-                })
+
+        while (cambiarStock) {
+            let ingreso = prompt("Ingresá los datos del producto a modificar: Id, 'agregar' o 'quitar', cantidad,  separados por una barra diagonal (/), ingrersá x para salir. ");
+            if (ingreso.toUpperCase() == "X") {
+                cambiarStock = false;
+
+
             }
-            if (idCambioStock[1] == "quitar") {
-                console.log(idCambioStock);
-                productos.forEach(element => {
-                    if (element.id == idCambioStock[0]) {
-                        element.cantidad = parseInt(element.cantidad) - parseInt(idCambioStock[2]);
-                        alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
-                    }
-                })
+            let idCambioStock = ingreso.split("/");
+            if (idCambioStock[1] == "agregar" || idCambioStock[1] == "quitar") {
+                if (idCambioStock[1] == "agregar") {
+                    console.log(idCambioStock);
+                    productos.forEach(element => {
+                        if (element.id == idCambioStock[0]) {
+                            element.cantidad = parseInt(element.cantidad) + parseInt(idCambioStock[2]);
+                            alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
+                        }
+                    })
+                }
+                if (idCambioStock[1] == "quitar") {
+                    console.log(idCambioStock);
+                    productos.forEach(element => {
+                        if (element.id == idCambioStock[0]) {
+                            element.cantidad = parseInt(element.cantidad) - parseInt(idCambioStock[2]);
+                            alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
+                        }
+                    })
+                }
+            }
+            if (idCambioStock[1] != "agregar" && idCambioStock[1] != "quitar") {
+                alert("Solo puedes usar los valores 'agregar' o 'quitar'. ")
             }
         }
-        if (idCambioStock[1] != "agregar" && idCambioStock[1] != "quitar") {
-            alert("Solo puedes usar los valores 'agregar' o 'quitar'. ")
+
+        while (agregarArticulo) {
+            let ingreso = prompt("Ingresá los datos del producto: tipo, modelo, precio, material, color, size, cantidad, separados por uhna barra diagonal (/), ingrersá x para salir. ");
+            if (ingreso.toUpperCase() == "X") {
+                agregarArticulo = false;
+
+            }
+            if (ingreso.toUpperCase() != "X") {
+                let datos = ingreso.split('/')
+                console.log(datos);
+                const producto = new Producto(datos[0], datos[1], parseFloat(datos[2]), datos[3], datos[4], datos[5], parseInt(datos[6]), productos.length + 1)
+                productos.push(producto);
+                alert("Ud. acaba de agregar el ID nro: " + productos.length + "\n Tipo: " + datos[0] + "\n Modelo: " + datos[1] + "\n Precio: $" + datos[2] + "\n Material: " + datos[3] + "\n Color: " + datos[4] + "\n Medidas: " + datos[5] + '" \n Cantidad: ' + datos[6] + " unidades");
+
+                console.log(productos);
+            }
+
+
         }
-    }
-
-    while (agregarArticulo) {
-        let ingreso = prompt("Ingresá los datos del producto: tipo, modelo, precio, material, color, size, cantidad, separados por uhna barra diagonal (/), ingrersá x para salir. ");
-        if (ingreso.toUpperCase() == "X") {
-            agregarArticulo = false;
-
-        }
-        if (ingreso.toUpperCase()!="X") {
-        let datos = ingreso.split('/')
-        console.log(datos);
-        const producto = new Producto(datos[0], datos[1], parseFloat(datos[2]), datos[3], datos[4], datos[5], parseInt(datos[6]), productos.length + 1)
-        productos.push(producto);
-        alert ("Ud. acaba de agregar el ID nro: "+productos.length +"\n Tipo: " +datos[0]+ "\n Modelo: "+datos[1]+"\n Precio: $"+datos[2]+ "\n Material: "+datos[3]+"\n Color: "+datos[4]+"\n Medidas: "+datos[5]+'" \n Cantidad: '+datos[6]+" unidades");
-
-        console.log(productos);
-        }
-
-
     }
 }
