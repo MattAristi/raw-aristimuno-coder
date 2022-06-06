@@ -149,7 +149,7 @@ function register() {
         userEmail = document.querySelector("#e-mail").value;
         user = document.querySelector("#usuario").value;
         userPasword = document.querySelector("#g-password").value;
-        console.log(userName, userAge, userEmail, user, userPasword)
+        console.log(userName, userAge, userEmail, user, userPasword);
         logIn = true;
         alert("Usuario genereado exitosamente.");
         comprar();
