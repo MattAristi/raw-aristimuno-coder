@@ -88,9 +88,17 @@ function login() {
         alert("tu contraseña es incorrecta.");
 
     }
+<<<<<<< HEAD
 }
 
 
+=======
+}
+function comprar(){
+    alert("Carga tu carrito!")
+}
+
+>>>>>>> eventos
 class Producto {
     constructor(tipo, modelo, precio, material, color, size, cantidad, id) {
         this.tipo = tipo;
@@ -154,7 +162,11 @@ function register() {
         alert("Usuario genereado exitosamente.");
         comprar();
     });
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> eventos
 
 
 
@@ -162,11 +174,60 @@ register();
 
 inicio();
 
+<<<<<<< HEAD
 
 function administrador() {
     while (salidaAdmin) {
         opcionesAdm = parseInt(prompt("Elegí entre estas opciones ingresando solo el número de la opción indicada:\n 1 - Agregar un artícullo. \n 2 - Cambiar Precio. \n 3 - Cambiar stock. \n 4 - Salir.  "));
 
+        switch (opcionesAdm) {
+            case 1:
+                agregarArticulo = true;
+                break
+            case 2:
+                cambiarPrecio = true;
+                break
+            case 3:
+                cambiarStock = true;
+                break
+
+            case 4:
+                salidaAdmin = false;
+                break
+        }
+
+        while (cambiarPrecio) {
+            let ingreso = prompt("Ingresá los datos del producto a modificar: Id, precio nuevo, separados por uhna barra diagonal (/), ingrersá x para salir. ");
+            if (ingreso.toUpperCase() == "X") {
+                cambiarPrecio = false;
+=======
+  
+
+>>>>>>> eventos
+
+function administrador() {
+    while (salidaAdmin) {
+        opcionesAdm = parseInt(prompt("Elegí entre estas opciones ingresando solo el número de la opción indicada:\n 1 - Agregar un artícullo. \n 2 - Cambiar Precio. \n 3 - Cambiar stock. \n 4 - Salir.  "));
+
+<<<<<<< HEAD
+            }
+            let idCambioPrecio = ingreso.split("/");
+            console.log(idCambioPrecio);
+            productos.forEach(element => {
+                if (element.id == idCambioPrecio[0]) {
+                    element.precio = parseFloat(idCambioPrecio[1]);
+                    alert("El id nro " + element.id + " ahora vale $" + element.precio + ".")
+                }
+            })
+        }
+
+        while (cambiarStock) {
+            let ingreso = prompt("Ingresá los datos del producto a modificar: Id, 'agregar' o 'quitar', cantidad,  separados por una barra diagonal (/), ingrersá x para salir. ");
+            if (ingreso.toUpperCase() == "X") {
+                cambiarStock = false;
+
+
+=======
         switch (opcionesAdm) {
             case 1:
                 agregarArticulo = true;
@@ -206,6 +267,7 @@ function administrador() {
                 cambiarStock = false;
 
 
+>>>>>>> eventos
             }
             let idCambioStock = ingreso.split("/");
             if (idCambioStock[1] == "agregar" || idCambioStock[1] == "quitar") {
@@ -252,8 +314,11 @@ function administrador() {
 
         }
     }
+<<<<<<< HEAD
 }
 function comprar(){
     if (logIn)
     alert("Carga tu carrito!")
+=======
+>>>>>>> eventos
 }
