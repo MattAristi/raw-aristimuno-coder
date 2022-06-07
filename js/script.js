@@ -132,34 +132,37 @@ const productos = [
     new Producto("Portaequipaje", "trasero", 2500, "acero", "black", "28", 20, 23),
     new Producto("Portaequipaje", "trasero", 2500, "acero", "metali", "28", 20, 24),
 ]
-function inicio() {
-    document.getElementById("btn__login").addEventListener("click", () => {
-        userEmail1 = document.querySelector("#email-usuario").value;
-        userPasword1 = document.querySelector("#password").value;
-        console.log(userEmail1, userPasword1)
-        login();
-    });
+
+    // document.getElementById("btn__login").addEventListener("click", inicio);
+    document.getElementById("btn__login").addEventListener("click", (event) =>{ event.preventDefault(); inicio(); })
+    function inicio() {
+    userEmail1 = document.querySelector("#email-usuario").value;
+    userPasword1 = document.querySelector("#password").value;
+    console.log(userEmail1, userPasword1)
+    login();
 
 }
 
-function register() {
-    document.getElementById("btn__ingresardatos").addEventListener("click", () => {
-        userName = document.querySelector("#nombre-completo").value;
-        userAge = document.querySelector("#fecha-n").value;
-        userEmail = document.querySelector("#e-mail").value;
-        user = document.querySelector("#usuario").value;
-        userPasword = document.querySelector("#g-password").value;
-        console.log(userName, userAge, userEmail, user, userPasword);
-        logIn = true;
-        alert("Usuario genereado exitosamente.");
-        comprar();
-    });
-};
+
+// document.getElementById("btn__ingresardatos").addEventListener("click",register)
+document.getElementById("btn__ingresardatos").addEventListener("click", (event) =>{ event.preventDefault(); register(); })
 
 
-register();
+function register() {   
+    userName = document.querySelector("#nombre-completo").value;
+    userAge = document.querySelector("#fecha-n").value;
+    userEmail = document.querySelector("#e-mail").value;
+    user = document.querySelector("#usuario").value;
+    userPasword = document.querySelector("#g-password").value;
+    console.log(userName, userAge, userEmail, user, userPasword);
+    logIn = true;
+    alert("Usuario genereado exitosamente.");
+    comprar();
+    }
 
-inicio();
+
+
+
 
 
 function administrador() {
