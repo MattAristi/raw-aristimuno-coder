@@ -8,6 +8,7 @@ function jugamos(){
     let d="dobles";
     let t="triples";
     let f="veces";
+    //``
     do {
         do {
             distancia = parseInt( prompt("Decime a que distancia queres encestar! 6 u 8 metros? Escribe '0' para salir"));
