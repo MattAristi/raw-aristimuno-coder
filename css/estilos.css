@@ -27,6 +27,7 @@ main {
     margin: auto;
     position: relative;
     padding-bottom: 2rem;
+    display: none;
     
 }
 .cfondo {
@@ -168,9 +169,11 @@ main {
     border-radius: 10px;
     backdrop-filter: blur(10px);
     background-color: rgba(0, 0, 0, 0.323);
+    display: flex;
 }
 .card-body{
     margin: 10px;
+    
 }
 .productos{
     display: flex;
@@ -198,6 +201,7 @@ main {
     border-radius: 10px;
     cursor: pointer;
     outline: none;
+    display: block;
 }
 .btn-header-logout{
     padding: 10px 10px;
@@ -209,8 +213,13 @@ main {
     cursor: pointer;
     outline: none;
     display: none;
+    text-decoration: none;
 }
-.btn-carrito{
+.btn-header-logout a{
+    color: white;
+    text-decoration: none
+};
+.card-body .btn-carrito {
     padding: 10px 40px;
     margin-top: 10px;
     font-size: 14px;

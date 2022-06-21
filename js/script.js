@@ -10,7 +10,7 @@ let agregarArticulo = false;
 let cambiarPrecio = false;
 let cambiarStock = false;
 let opcionesAdm;
-let salidaAdmin;
+let salidaAdmin = false;
 let userEmail1;
 let userPasword1;
 let userName;
@@ -19,7 +19,7 @@ let userEmail;
 let user;
 let userPasword;
 let usuarioLocalStorage;
-let wrong=false;
+let wrong = false;
 
 let divUserLog = document.getElementById('userlog');
 
@@ -32,8 +32,9 @@ const cFondoRegister = document.querySelector(".cfondo-register");
 const wrongPassword = document.querySelector(".wrong-password");
 const wrongData = document.querySelector(".wrong-data");
 const headerBtnLogin = document.querySelector(".btn-header-login");
-const headerBtnLogout =document.querySelector(".btn-header-logout");
-const adminLog= document.getElementById('adminlog')
+const headerBtnLogout = document.querySelector(".btn-header-logout");
+const adminLog = document.getElementById('adminlog')
+
 function loginForm() {
     if (window.innerWidth > 850) {
         formRegister.style.display = "none";
@@ -48,15 +49,13 @@ function loginForm() {
         cFondoRegister.style.display = "block";
         cFondoLogin.style.display = "none";
     }
+    document.querySelector("#nombre-completo").value = "";
+    document.querySelector("#fecha-n").value = "";
+    document.querySelector("#e-mail").value = "";
+    document.querySelector("#usuario").value = "";
+    document.querySelector("#g-password").value = "";
 }
 
-function inicio() {
-    userEmail1 = document.querySelector("#email-usuario").value;
-    userPasword1 = document.querySelector("#password").value;
-    console.log(userEmail1, userPasword1)
-    login();
-
-}
 
 
 function registerForm() {
@@ -76,6 +75,15 @@ function registerForm() {
     }
 }
 
+
+function inicio() {
+    userEmail1 = document.querySelector("#email-usuario").value;
+    userPasword1 = document.querySelector("#password").value;
+    login();
+
+}
+
+
 function register() {
     userName = document.querySelector("#nombre-completo").value;
     userAge = document.querySelector("#fecha-n").value;
@@ -83,6 +91,7 @@ function register() {
     user = document.querySelector("#usuario").value;
     userPasword = document.querySelector("#g-password").value;
     console.log(userName, userAge, userEmail, user, userPasword);
+    let newUser = true;
     const usuario = {
         'Name': userName,
         'Age': userAge,
@@ -90,51 +99,84 @@ function register() {
         'User': user,
         'Password': userPasword,
     }
-    localStorage.setItem('Usuario',JSON.stringify(usuario));
-    console.log(usuarioLocalStorage);
-    alert("Usuario genereado exitosamente.");
+    for (let i = 0; i < localStorage.length; i++) {
+        let clave = localStorage.key(i);
+        if (clave == userEmail) {
+            newUser = false
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Este usuario ya formaba parte de la comunidad RAW',
+                showConfirmButton: false,
+                timer: 2000
+            })
+
+        }
+    }
+    if (newUser) {
+        localStorage.setItem(userEmail, JSON.stringify(usuario));
+        console.log(usuario);
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Usuario generado exitosamente',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    }
+    loginForm();
 }
 
 
 function login() {
-    usuarioLocalStorage=JSON.parse(localStorage.getItem('Usuario'));
-    userEmail=usuarioLocalStorage.Email;
-    userPasword=usuarioLocalStorage.Password;
-    console.log(userEmail,userPasword);
-    
+    for (let i = 0; i < localStorage.length; i++) {
+        let clave = localStorage.key(i);
+        if (clave == userEmail1) {
+            usuarioLocalStorage = JSON.parse(localStorage.getItem(clave));
+            console.log(usuarioLocalStorage);
+            userEmail = usuarioLocalStorage.Email;
+            userPasword = usuarioLocalStorage.Password;
+
+        }
+
+    }
+
     if (userEmail == userEmail1 && userPasword == userPasword1 && userEmail1 != adminEmail) {
         logIn = true;
-        container.style.display = 'none';
+        document.querySelector("#email-usuario").value = "";
+        document.querySelector("#password").value = "";
         recorrerProductos(productos);
         headerLogIn()
     }
     if (userEmail == userEmail1 && userPasword != userPasword1 && userEmail1 != adminEmail) {
-        wrongPassword.style.display='block'
+        wrongPassword.style.display = 'block'
+        document.querySelector("#password").value = "";
     }
 
     if (userEmail != userEmail1 && userEmail != adminEmail && adminEmail != userEmail1) {
-        wrongPassword.style.display='block'
+        wrongData.style.display = 'block'
+        document.querySelector("#email-usuario").value = "";
+        document.querySelector("#password").value = "";
 
     }
     if (userEmail1 == adminEmail && userPasword1 == adminPasword) {
         salidaAdmin = true;
-        container.style.display = 'none';
         administrador();
         headerLogIn()
 
     }
     if (adminEmail == userEmail1 && adminPasword != userPasword1) {
-        wrongPassword.style.display='block'
+        wrongPassword.style.display = 'block'
+        document.querySelector("#password").value = "";
     }
 }
 
 const recorrerProductos = (array) => {
-    if (logIn) {
-        for (const element of array) {
-            let div = document.createElement('div');
-            div.className = 'card';
-            div.style = 'width: 18rem;';
-            div.innerHTML = `
+    for (const element of array) {
+        let div = document.createElement('div');
+        div.className = 'card';
+        div.style = 'width: 18rem;';
+        div.innerHTML = `
             <img src="${element.img}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h4 class="card-title">${element.tipo}</h4>
@@ -144,115 +186,155 @@ const recorrerProductos = (array) => {
             </div>
         </div>
         `
-        divUserLog.append(div)
-        }
+        divUserLog.append(div);
+        console.log(array);
+        const userLog = document.getElementById(element.id);
+        userLog.style.padding = '10px 40px';
+        userLog.style.marginTop = '10px';
+        userLog.style.fontSize = '14px';
+        userLog.style.backgroundColor = 'rgba(0, 0, 0, 0.323)';
+        userLog.style.color = 'white';
+        userLog.style.borderRadius = '10px';
+        userLog.style.cursor = 'pointer';
+        userLog.style.outline = 'none';
+
     }
+    loadEvents();
+
 
 }
-function headerLogIn () {
+
+function headerLogIn() {
+    const userLog = document.querySelector('.productos')
+
     if (logIn) {
-        headerBtnLogin.style.display='none'
-        headerBtnLogout.style.display='block'
+        headerBtnLogin.style.display = 'none'
+        headerBtnLogout.style.display = 'block'
+        container.style.display = 'none';
+        userLog.style.display = 'flex'
     }
     if (salidaAdmin) {
-        headerBtnLogin.style.display='none'
-        headerBtnLogout.style.display='block'
+        headerBtnLogin.style.display = 'none'
+        headerBtnLogout.style.display = 'block'
+        container.style.display = 'none';
+
+    }
+}
+
+
+
+
+function inicioAlogin() {
+    const userLog = document.querySelector('.productos')
+
+    if (logIn == false) {
+        headerBtnLogin.style.display = 'block'
+        headerBtnLogout.style.display = 'none'
+        container.style.display = 'block'
+        userLog.style.display = 'none'
+
+    }
+    if (salidaAdmin == false) {
+        headerBtnLogin.style.display = 'block'
+        headerBtnLogout.style.display = 'none'
+        container.style.display = 'block';
+        userLog.style.display = 'none'
     }
 }
 
 function administrador() {
-    adminLog.innerHTML= `
+    adminLog.innerHTML = `
     <p class="anuncio">Sitio en construcción</p>
     `
-//     while (salidaAdmin) {
-//         opcionesAdm = parseInt(prompt("Elegí entre estas opciones ingresando solo el número de la opción indicada:\n 1 - Agregar un artícullo. \n 2 - Cambiar Precio. \n 3 - Cambiar stock. \n 4 - Salir.  "));
+    //     while (salidaAdmin) {
+    //         opcionesAdm = parseInt(prompt("Elegí entre estas opciones ingresando solo el número de la opción indicada:\n 1 - Agregar un artícullo. \n 2 - Cambiar Precio. \n 3 - Cambiar stock. \n 4 - Salir.  "));
 
-//         switch (opcionesAdm) {
-//             case 1:
-//                 agregarArticulo = true;
-//                 break
-//             case 2:
-//                 cambiarPrecio = true;
-//                 break
-//             case 3:
-//                 cambiarStock = true;
-//                 break
+    //         switch (opcionesAdm) {
+    //             case 1:
+    //                 agregarArticulo = true;
+    //                 break
+    //             case 2:
+    //                 cambiarPrecio = true;
+    //                 break
+    //             case 3:
+    //                 cambiarStock = true;
+    //                 break
 
-//             case 4:
-//                 salidaAdmin = false;
-//                 break
-//         }
+    //             case 4:
+    //                 salidaAdmin = false;
+    //                 break
+    //         }
 
-//         while (cambiarPrecio) {
-//             let ingreso = prompt("Ingresá los datos del producto a modificar: Id, precio nuevo, separados por uhna barra diagonal (/), ingrersá x para salir. ");
-//             if (ingreso.toUpperCase() == "X") {
-//                 cambiarPrecio = false;
-
-
-//             }
-//             let idCambioPrecio = ingreso.split("/");
-//             console.log(idCambioPrecio);
-//             productos.forEach(element => {
-//                 if (element.id == idCambioPrecio[0]) {
-//                     element.precio = parseFloat(idCambioPrecio[1]);
-//                     alert("El id nro " + element.id + " ahora vale $" + element.precio + ".")
-//                 }
-//             })
-//         }
-
-//         while (cambiarStock) {
-//             let ingreso = prompt("Ingresá los datos del producto a modificar: Id, 'agregar' o 'quitar', cantidad,  separados por una barra diagonal (/), ingrersá x para salir. ");
-//             if (ingreso.toUpperCase() == "X") {
-//                 cambiarStock = false;
+    //         while (cambiarPrecio) {
+    //             let ingreso = prompt("Ingresá los datos del producto a modificar: Id, precio nuevo, separados por uhna barra diagonal (/), ingrersá x para salir. ");
+    //             if (ingreso.toUpperCase() == "X") {
+    //                 cambiarPrecio = false;
 
 
-//             }
-//             let idCambioStock = ingreso.split("/");
-//             if (idCambioStock[1] == "agregar" || idCambioStock[1] == "quitar") {
-//                 if (idCambioStock[1] == "agregar") {
-//                     console.log(idCambioStock);
-//                     productos.forEach(element => {
-//                         if (element.id == idCambioStock[0]) {
-//                             element.cantidad = parseInt(element.cantidad) + parseInt(idCambioStock[2]);
-//                             alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
-//                         }
-//                     })
-//                 }
-//                 if (idCambioStock[1] == "quitar") {
-//                     console.log(idCambioStock);
-//                     productos.forEach(element => {
-//                         if (element.id == idCambioStock[0]) {
-//                             element.cantidad = parseInt(element.cantidad) - parseInt(idCambioStock[2]);
-//                             alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
-//                         }
-//                     })
-//                 }
-//             }
-//             if (idCambioStock[1] != "agregar" && idCambioStock[1] != "quitar") {
-//                 alert("Solo puedes usar los valores 'agregar' o 'quitar'. ")
-//             }
-//         }
+    //             }
+    //             let idCambioPrecio = ingreso.split("/");
+    //             console.log(idCambioPrecio);
+    //             productos.forEach(element => {
+    //                 if (element.id == idCambioPrecio[0]) {
+    //                     element.precio = parseFloat(idCambioPrecio[1]);
+    //                     alert("El id nro " + element.id + " ahora vale $" + element.precio + ".")
+    //                 }
+    //             })
+    //         }
 
-//         while (agregarArticulo) {
-//             let ingreso = prompt("Ingresá los datos del producto: tipo, modelo, precio, color, cantidad, separados por uhna barra diagonal (/), ingrersá x para salir. ");
-//             if (ingreso.toUpperCase() == "X") {
-//                 agregarArticulo = false;
-
-//             }
-//             if (ingreso.toUpperCase() != "X") {
-//                 let datos = ingreso.split('/')
-//                 console.log(datos);
-//                 const producto = new Producto(datos[0], datos[1], parseFloat(datos[2]), datos[3], parseInt(datos[4]), datos[5], productos.length + 1)
-//                 productos.push(producto);
-//                 alert("Ud. acaba de agregar el ID nro: " + productos.length + "\n Tipo: " + datos[0] + "\n Modelo: " + datos[1] + "\n Precio: $" + datos[2] + "\n Color: " + datos[3] + '" \n Cantidad: ' + datos[4] + " unidades");
-
-//                 console.log(productos);
-//             }
+    //         while (cambiarStock) {
+    //             let ingreso = prompt("Ingresá los datos del producto a modificar: Id, 'agregar' o 'quitar', cantidad,  separados por una barra diagonal (/), ingrersá x para salir. ");
+    //             if (ingreso.toUpperCase() == "X") {
+    //                 cambiarStock = false;
 
 
-//         }
-//     }
- }
+    //             }
+    //             let idCambioStock = ingreso.split("/");
+    //             if (idCambioStock[1] == "agregar" || idCambioStock[1] == "quitar") {
+    //                 if (idCambioStock[1] == "agregar") {
+    //                     console.log(idCambioStock);
+    //                     productos.forEach(element => {
+    //                         if (element.id == idCambioStock[0]) {
+    //                             element.cantidad = parseInt(element.cantidad) + parseInt(idCambioStock[2]);
+    //                             alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
+    //                         }
+    //                     })
+    //                 }
+    //                 if (idCambioStock[1] == "quitar") {
+    //                     console.log(idCambioStock);
+    //                     productos.forEach(element => {
+    //                         if (element.id == idCambioStock[0]) {
+    //                             element.cantidad = parseInt(element.cantidad) - parseInt(idCambioStock[2]);
+    //                             alert("El id nro " + element.id + " ahora la cantidad es de " + element.cantidad + ".")
+    //                         }
+    //                     })
+    //                 }
+    //             }
+    //             if (idCambioStock[1] != "agregar" && idCambioStock[1] != "quitar") {
+    //                 alert("Solo puedes usar los valores 'agregar' o 'quitar'. ")
+    //             }
+    //         }
+
+    //         while (agregarArticulo) {
+    //             let ingreso = prompt("Ingresá los datos del producto: tipo, modelo, precio, color, cantidad, separados por uhna barra diagonal (/), ingrersá x para salir. ");
+    //             if (ingreso.toUpperCase() == "X") {
+    //                 agregarArticulo = false;
+
+    //             }
+    //             if (ingreso.toUpperCase() != "X") {
+    //                 let datos = ingreso.split('/')
+    //                 console.log(datos);
+    //                 const producto = new Producto(datos[0], datos[1], parseFloat(datos[2]), datos[3], parseInt(datos[4]), datos[5], productos.length + 1)
+    //                 productos.push(producto);
+    //                 alert("Ud. acaba de agregar el ID nro: " + productos.length + "\n Tipo: " + datos[0] + "\n Modelo: " + datos[1] + "\n Precio: $" + datos[2] + "\n Color: " + datos[3] + '" \n Cantidad: ' + datos[4] + " unidades");
+
+    //                 console.log(productos);
+    //             }
+
+
+    //         }
+    //     }
+}
 
 
 class Producto {
@@ -279,8 +361,6 @@ const productos = [
     new Producto("Cuadro", "NIGTHROO", 23000, "red", 20, '../imagenesraw/nightrodraw.jpg', 6),
     new Producto("Cuadro", "KLR wolf", 25000, "black", 20, '../imagenesraw/klrwolf.jpg', 7),
     new Producto("Cuadro", "KLR wolf", 25000, "blue", 20, '../imagenesraw/klrwolfblue.jpg', 8),
-    new Producto("Cuadro", "GOERING", 27000, "red", 20, '../imagenesraw/gorningred.jpg', 9),
-    new Producto("Cuadro", "GOERING", 27000, "white", 20, '../imagenesraw/goeringvioletv.jpg', 10),
 
 ]
 
@@ -296,6 +376,8 @@ const productos = [
 
 document.getElementById("btn__iniciar-session").addEventListener("click", loginForm);
 document.getElementById("btn__register").addEventListener("click", registerForm);
+// document.querySelector(".btn-header-logout").addEventListener("click", logout);
+
 
 
 document.getElementById("btn__login").addEventListener("click", (event) => {
@@ -307,3 +389,89 @@ document.getElementById("btn__ingresardatos").addEventListener("click", (event) 
     event.preventDefault();
     register();
 })
+
+document.querySelector(".btn-header-login").addEventListener("click", (event) => {
+    event.preventDefault();
+    inicioAlogin();
+})
+
+
+// carro
+
+
+
+
+
+const addProduct = (btncarro) => {
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    let tipoProducto;
+    let nombreProducto;
+    let colorProducto;
+    let precioProducto;
+    let cartContent = [];
+    if (cart) {
+        for (const element of cart) {
+            if (element.id == btncarro) {
+                element.quantity++;
+                tipoProducto = element.tipo;
+                nombreProducto = element.modelo;
+                colorProducto = element.color;
+                precioProducto = element.precio;
+            }
+            cartContent.push(element);
+        }
+    }
+
+    localStorage.removeItem("cart");
+    localStorage.setItem("cart", JSON.stringify(cartContent));
+    console.log("cart: " + JSON.stringify(cartContent));
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Se agregó el producto ' + tipoProducto + " " + nombreProducto + " " + colorProducto + '\n Suma al carrito $' + precioProducto,
+        showConfirmButton: false,
+        timer: 3000
+    })
+
+}
+
+
+const loadEvents = () => {
+    let buttons = document.getElementsByClassName('btn-carrito');
+    console.log("load events");
+    console.log(buttons);
+    for (let i = 0; i < buttons.length; i++) {
+
+        let item = document.getElementsByClassName('btn-carrito')[i];
+        item.addEventListener("click", () => {
+            addProduct(item.id);
+        });
+
+    }
+}
+
+const createCart = () => {
+    let cart = [];
+    for (const prod of productos) {
+        cart.push({
+                id: prod.id,
+                tipo: prod.tipo,
+                modelo: prod.modelo,
+                precio: prod.precio,
+                color: prod.color,
+                cantidad: prod.cantidad,
+                img: prod.img,
+                quantity: 0
+            }
+
+        )
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(JSON.stringify(cart));
+}
+
+
+let cart = localStorage.getItem("cart");
+if (!cart) {
+    createCart();
+}
