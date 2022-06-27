@@ -251,3 +251,63 @@ main {
     padding: 10px;
     border-radius: 5px;
 }
+.carrito{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: 80px 20px;
+    background: rgba(0, 0, 0, 0.678);
+    position: relative;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    
+}
+.carrito #btn-acompra {
+    padding: 10px 10px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 14px;
+    background-color:rgba(0, 0, 0, 0.323) ;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;   
+}
+.btn-quitar{
+    padding: 10px 10px;
+    margin-top: 10px;
+    width: 100px;
+    font-size: 14px;
+    background-color:rgba(0, 0, 0, 0.323) ;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none; 
+}
+.titulo-cart {
+    margin-bottom: 20px;
+    
+}
+.cart-title {
+    font-size: 45px;
+}
+.suma-total{
+    padding: 20px;
+    font-size: 35px;
+}
+.container-carrito{
+    padding: 10px 10px;
+    margin-top: 10px;
+    width: 100px;
+    font-size: 14px;
+    background-color:rgba(0, 0, 0, 0.323) ;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none; 
+}

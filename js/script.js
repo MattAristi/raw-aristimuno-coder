@@ -21,7 +21,7 @@ let userPasword;
 let usuarioLocalStorage;
 let wrong = false;
 
-let divUserLog = document.getElementById('userlog');
+
 
 const container = document.querySelector(".container")
 const containerRegister = document.querySelector(".container__register");
@@ -146,6 +146,7 @@ function login() {
         document.querySelector("#email-usuario").value = "";
         document.querySelector("#password").value = "";
         recorrerProductos(productos);
+        showCart()
         headerLogIn()
     }
     if (userEmail == userEmail1 && userPasword != userPasword1 && userEmail1 != adminEmail) {
@@ -171,7 +172,10 @@ function login() {
     }
 }
 
+const divUserLog = document.getElementById('userlog');
+
 const recorrerProductos = (array) => {
+    divUserLog.innerHTML=``
     for (const element of array) {
         let div = document.createElement('div');
         div.className = 'card';
@@ -187,7 +191,6 @@ const recorrerProductos = (array) => {
         </div>
         `
         divUserLog.append(div);
-        console.log(array);
         const userLog = document.getElementById(element.id);
         userLog.style.padding = '10px 40px';
         userLog.style.marginTop = '10px';
@@ -206,18 +209,20 @@ const recorrerProductos = (array) => {
 
 function headerLogIn() {
     const userLog = document.querySelector('.productos')
+    const classCarrito = document.querySelector('.carrito')
 
     if (logIn) {
         headerBtnLogin.style.display = 'none'
         headerBtnLogout.style.display = 'block'
         container.style.display = 'none';
         userLog.style.display = 'flex'
+        if (cart)
+            classCarrito.style.display = 'flex'
     }
     if (salidaAdmin) {
         headerBtnLogin.style.display = 'none'
         headerBtnLogout.style.display = 'block'
         container.style.display = 'none';
-
     }
 }
 
@@ -226,12 +231,13 @@ function headerLogIn() {
 
 function inicioAlogin() {
     const userLog = document.querySelector('.productos')
-
+    const classCarrito = document.querySelector('.carrito')
     if (logIn == false) {
         headerBtnLogin.style.display = 'block'
         headerBtnLogout.style.display = 'none'
         container.style.display = 'block'
         userLog.style.display = 'none'
+        classCarrito.style.display = 'none'
 
     }
     if (salidaAdmin == false) {
@@ -239,6 +245,7 @@ function inicioAlogin() {
         headerBtnLogout.style.display = 'none'
         container.style.display = 'block';
         userLog.style.display = 'none'
+        classCarrito.style.display = 'none'
     }
 }
 
@@ -430,14 +437,15 @@ const addProduct = (btncarro) => {
         icon: 'success',
         title: 'Se agregó el producto ' + tipoProducto + " " + nombreProducto + " " + colorProducto + '\n Suma al carrito $' + precioProducto,
         showConfirmButton: false,
-        timer: 3000
-    })
-
+        timer: 2000
+    })  
 }
+
 
 
 const loadEvents = () => {
     let buttons = document.getElementsByClassName('btn-carrito');
+    headerLogIn();
     console.log("load events");
     console.log(buttons);
     for (let i = 0; i < buttons.length; i++) {
@@ -445,8 +453,9 @@ const loadEvents = () => {
         let item = document.getElementsByClassName('btn-carrito')[i];
         item.addEventListener("click", () => {
             addProduct(item.id);
+            login();
+            showCart();
         });
-
     }
 }
 
@@ -461,7 +470,7 @@ const createCart = () => {
                 color: prod.color,
                 cantidad: prod.cantidad,
                 img: prod.img,
-                quantity: 0
+                quantity: 0,
             }
 
         )
@@ -471,7 +480,85 @@ const createCart = () => {
 }
 
 
-let cart = localStorage.getItem("cart");
+let cart = (localStorage.getItem("cart"));
 if (!cart) {
     createCart();
 }
+recorrerCarrito(JSON.parse(cart));
+
+
+
+function recorrerCarrito(array) {
+    let sumaTotal=0;
+    const divCarrito = document.querySelector('.carrito');
+    divCarrito.innerHTML = ``
+    let tituloCart= document.createElement('div')
+    tituloCart.className='titulo-cart'
+    tituloCart.style='color:white'
+    tituloCart.innerHTML=`
+    <h4 class="cart-title">Tus productos</h4>
+    `
+    divCarrito.append(tituloCart)
+    for (const element of array) {
+        if (element.quantity != 0) {
+            let suma = 0;
+            suma = suma + (element.quantity * element.precio);
+            sumaTotal = sumaTotal + (element.quantity * element.precio);
+            let div = document.createElement('div');
+            div.className = 'cart';
+            div.style = 'display: flex'
+            div.style = 'color: white'
+            div.innerHTML = `
+                <p class="card-text"> ${element.quantity} ${element.tipo} ${element.modelo} $  ${element.precio} total: $${suma} </p>
+                <button class="btn-quitar" id="${element.id}">Quitar 1</button>
+            </div>
+        `
+
+        divCarrito.append(div);
+        }
+    }
+    let divTotal =document.createElement('div');
+    divTotal.className = 'suma-total';
+    divTotal.style = 'color : white'
+    divTotal.innerHTML= `
+    <p class="suma-total"> Valor total de la compra $${sumaTotal}</P>
+    `
+    divCarrito.append(divTotal);
+}
+function showCart () {
+        cart = (localStorage.getItem("cart"));
+        recorrerCarrito(JSON.parse(cart));
+}
+
+async function traerDatosHTML() {
+    const respuesta = await fetch('./js/envios.json');
+    const data = await respuesta.json();
+    enviosHTML(data);
+}
+
+const selectEnvios= getElementById('envios');
+function enviosHTML(array) {
+    selectEnvios.innerHTML = ''
+    let options = document.createElement('option');
+    options.innerHTML=`
+    <option value="">Elige tu zona</option>
+    `
+    selectEnvios.append(options);
+
+    
+    for (const element of array) {
+        options.innerHTML=`
+        <option value="${element.zona}">${element.zona}</option>
+        `;
+        selectEnvios.append(options);
+    }
+}
+let valorEnviio=0
+let zonaElegida
+function precioEnvio (arrray) {
+    
+    for (const element of array) {
+        if (element.precio== zonaElegida){}
+    }
+}
+traerDatosHTML()

@@ -1,0 +1,127 @@
+[
+    {
+        "Zona":"CABA",
+        "precio":600,
+        "Demora":"2-4 días Habiles"
+    },
+    {
+        "Zona":"Zona sur (Provincia de Buenos Aires)",
+        "precio":1000,
+        "Demora":"4-8 días Habiles"
+    },
+    {
+        "Zona":"Zona oeste (Provincia de Buenos Aires)",
+        "precio":900,
+        "Demora":"3-7 días habiles"
+    },
+    {
+        "Zona":"Zona norte (Provincia de Buenos Aires)",
+        "precio":800,
+        "Demora":"3-6 días habiles"
+    },
+    {
+        "Zona":"Provincia de buenos aires fuera de AMBA",
+        "precio":1500,
+        "Demora":"4-10 días habiles"
+    },
+    {
+        "Zona":"Entre Ríos",
+        "precio":2000,
+        "Demora":"5-10 días habiles"
+    },
+    {
+        "Zona":"Santa Fe",
+        "precio":2000,
+        "Demora":"5-10 días habiles"
+    },
+    {
+        "Zona":"Córdoba",
+        "precio":2000,
+        "Demora":"5-10 días habiles"
+    },
+    {
+        "Zona":"La Pampa",
+        "precio":2000,
+        "Demora":"5-10 días habiles"
+    },
+    {
+        "Zona":"Río Negro",
+        "precio":2000,
+        "Demora":"5-10 días habiles"
+    },
+    {
+        "Zona":"San Luis",
+        "precio":2000,
+        "Demora":"5-10 días habiles"
+    },
+    {
+        "Zona":"Corrientes",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Misiones",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Formosa",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Chaco",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Santiago del Estrero",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Jujuy",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Salta",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Tucumán",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Catamarca",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Mendoza",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Neuquen",
+        "precio":2500,
+        "Demora":"7-12 días habiles"
+    },
+    {
+        "Zona":"Chubut",
+        "precio":2800,
+        "Demora":"7-15 días habiles"
+    },
+    {
+        "Zona":"Santa Cruz",
+        "precio":2800,
+        "Demora":"7-15 días habiles"
+    },
+    {
+        "Zona":"Tierra del Fuego",
+        "precio":2800,
+        "Demora":"7-15 días habiles"
+    }   
+]

@@ -1,0 +1,29 @@
+descripcion de funcinamiento de mi proyecto.
+
+LOGIN
+El login tiene un usuario y contraseña de administrador hardcodeado
+Por otra parte en el login se pueden generar usuarios que se guardan en el localstorage. Te podes loguear con cualquiera 
+de los usuarios generados en ese localstorage. 
+
+Al generar el usuario el sitio te lleva a la seccion de login. si el usuario no existe te avisa que los datos ingresados 
+no son correctos y limpia ambos inputs. y en caso de que el usuario exista y este mal la contraseña avisa que la contraseña
+ es incorrecta y solo limpia el campo de la contraseña.
+
+ una vez logueado aparece un boton de Logout en el header.
+
+PRODUCTOS 
+Los productos estan en un array y las cards que muestran los productos se generan una vez que el usuario se loguea. En 
+cada card hay un boton para agregar el producto al carro que estará ligado al usuario registrado (esta opcion de
+ ligar el carro al usuario no está funcional aún)
+
+ ADMINISTRADOR
+ El login tiene un usuario y contraseña de administrador hardcodeado (usuario "admin@raw.com" y contraseña "x") 
+ingresando como administrador tenes la posibilidad de crear un nuevo producto, o modificar productos al cambiar 
+el precio o podes agregar o quitar can tidad en el stock de productos. (esta sección está en producción)
+
+
+Para el DESAFÍO VENCE EL MIÉRCOLES 15/06/2022 23:59HS
+
+Incorporando librerías)
+
+las librterias agregadas son provenientes del sweet alert2 y son visibles al generar un usuario
