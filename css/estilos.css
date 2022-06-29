@@ -311,3 +311,29 @@ main {
     outline: none;
     text-decoration: none; 
 }
+.consulta-envio {
+    padding: 10px 10px;
+    margin-top: 10px;
+    width: 150px;
+    font-size: 14px;
+    background-color:rgba(0, 0, 0, 0.323) ;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none; 
+    display: none;
+}
+#envios {
+    padding: 10px 10px;
+    margin-top: 10px;
+    width: 300px;
+    font-size: 14px;
+    background-color:white ;
+    color: black;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    display: none;  
+}

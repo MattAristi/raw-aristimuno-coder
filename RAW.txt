@@ -22,8 +22,7 @@ ingresando como administrador tenes la posibilidad de crear un nuevo producto, o
 el precio o podes agregar o quitar can tidad en el stock de productos. (esta sección está en producción)
 
 
-Para el DESAFÍO VENCE EL MIÉRCOLES 15/06/2022 23:59HS
+Para el desafio Fetch
 
-Incorporando librerías)
-
-las librterias agregadas son provenientes del sweet alert2 y son visibles al generar un usuario
+Hardcodee un archivo Json con datos de envios. por ahora solo funciona correctamente recorriendolo para generar un 
+select del que voy a extraer informacion e incluirla al carrito.
