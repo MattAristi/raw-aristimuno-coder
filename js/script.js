@@ -200,6 +200,9 @@ const recorrerProductos = (array) => {
         userLog.style.borderRadius = '10px';
         userLog.style.cursor = 'pointer';
         userLog.style.outline = 'none';
+        if (!logIn){
+            userLog.style.display='none'
+        }
         
     }
     loadEvents();
@@ -377,19 +380,10 @@ const productos = [
 
 ]
 
-// esto lo queria usar para hacer aparecer el div del login  y ocultar los productos si querias tocar un boton de las cards sin estar logueado o si tocabas el boton de logion del header.
-// como no funcionó y me esconde ambos al iniciar volvi a dejar en block a los dos elementos.
-//const divProductos = document.querySelector(".productos")
 
-// document.querySelector(".btn-carrito").addEventListener("click", (event) =>{ event.preventDefault(); inicioToLogin(); })
-//     function inicioToLogin() {
-//         container.style.display = "block";
-//         divProductos.style.display = "none";
-//     }
 
 document.getElementById("btn__iniciar-session").addEventListener("click", loginForm);
 document.getElementById("btn__register").addEventListener("click", registerForm);
-// document.querySelector(".btn-header-logout").addEventListener("click", logout);
 
 
 
@@ -489,7 +483,6 @@ const createCart = () => {
         )
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(JSON.stringify(cart));
 }
 
 
@@ -547,9 +540,7 @@ function showCart () {
 async function traerDatosHTML() {
     const respuesta = await fetch('./js/envios.json');
     const data = await respuesta.json();
-    console.log(data);
     enviosHTML(data);
-    console.log(data);
 }
 
 const selectEnvios=document.querySelector('#envios');
@@ -570,7 +561,6 @@ function enviosHTML(array) {
     btnConsultaEnvio.className='consulta-envio';
     btnConsultaEnvio.innerText= 'Consultar envio'
     divSelect.append(btnConsultaEnvio);
-    console.log(divSelect);
 eventPrecioEnvio()
 }
 async function traerPrecioEnvio(){
@@ -579,17 +569,28 @@ async function traerPrecioEnvio(){
     precioEnvio(data);
 }
 
-function precioEnvio (arrray) {
+let valorEnvio;
+let demoraEntrega;
+
+function precioEnvio (array) {
     let pValorEnvio;
     for (const element of array) {
         if (element.Zona == selValue){
+            valorEnvio=element.precio;
+            demoraEntrega=element.Demora;
             pValorEnvio=document.createElement('p');
             pValorEnvio.className='precio-envio'
             pValorEnvio.innerText=`$${element.precio}`;
             selectEnvios.append(pValorEnvio);
-            console.log(pValorEnvio);
         }
     }
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'El costo del envio es $' + valorEnvio + "\n Tu pedido llegará en  " + demoraEntrega+ " " ,
+        showConfirmButton: false,
+        timer: 3000
+    })  
 }
 
 let selValue
@@ -599,7 +600,7 @@ function selectValue () {
     
 }
 
-
+recorrerProductos(productos)
 traerDatosHTML()
 
 btnConsultaEnvio.addEventListener('click', () => {
