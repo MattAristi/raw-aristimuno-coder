@@ -20,8 +20,13 @@ let user;
 let userPasword;
 let usuarioLocalStorage;
 let wrong = false;
+let agregar = false;
+let quitar = false;
+let selValue;
 
 
+let valorEnvio = 0;
+let demoraEntrega = '-';
 
 const container = document.querySelector(".container")
 const containerRegister = document.querySelector(".container__register");
@@ -34,6 +39,10 @@ const wrongData = document.querySelector(".wrong-data");
 const headerBtnLogin = document.querySelector(".btn-header-login");
 const headerBtnLogout = document.querySelector(".btn-header-logout");
 const adminLog = document.getElementById('adminlog')
+
+const divUserLog = document.getElementById('userlog');
+
+const selectEnvios = document.querySelector('#envios');
 
 function loginForm() {
     if (window.innerWidth > 850) {
@@ -172,10 +181,10 @@ function login() {
     }
 }
 
-const divUserLog = document.getElementById('userlog');
+
 
 const recorrerProductos = (array) => {
-    divUserLog.innerHTML=``
+    divUserLog.innerHTML = ``
     for (const element of array) {
         let div = document.createElement('div');
         div.className = 'card';
@@ -200,10 +209,10 @@ const recorrerProductos = (array) => {
         userLog.style.borderRadius = '10px';
         userLog.style.cursor = 'pointer';
         userLog.style.outline = 'none';
-        if (!logIn){
-            userLog.style.display='none'
+        if (!logIn) {
+            userLog.style.display = 'none'
         }
-        
+
     }
     loadEvents();
 
@@ -212,17 +221,17 @@ const recorrerProductos = (array) => {
 
 function headerLogIn() {
     const userLog = document.querySelector('.productos')
-    const classCarrito = document.querySelector('.carrito')
+    const classCarrito = document.querySelector('.container-carrito')
     const btnConsultarEnvio = document.querySelector('.consulta-envio');
     if (logIn) {
         headerBtnLogin.style.display = 'none'
         headerBtnLogout.style.display = 'block'
         container.style.display = 'none';
         userLog.style.display = 'flex'
-        if (cart){
+        if (cart) {
             classCarrito.style.display = 'flex'
-            selectEnvios.style.display= 'block'
-            btnConsultarEnvio.style.display= 'block';
+            selectEnvios.style.display = 'block'
+            btnConsultarEnvio.style.display = 'block';
         }
         if (salidaAdmin) {
             headerBtnLogin.style.display = 'none'
@@ -237,7 +246,7 @@ function headerLogIn() {
 
 function inicioAlogin() {
     const userLog = document.querySelector('.productos')
-    const classCarrito = document.querySelector('.carrito')
+    const classCarrito = document.querySelector('.container-carrito')
     const btnConsultarEnvio = document.querySelector('.consulta-envio');
     if (logIn == false) {
         headerBtnLogin.style.display = 'block'
@@ -245,8 +254,8 @@ function inicioAlogin() {
         container.style.display = 'block'
         userLog.style.display = 'none'
         classCarrito.style.display = 'none'
-        selectEnvios.style.display= 'none';
-        btnConsultarEnvio.style.display= 'none';
+        selectEnvios.style.display = 'none';
+        btnConsultarEnvio.style.display = 'none';
     }
     if (salidaAdmin == false) {
         headerBtnLogin.style.display = 'block'
@@ -254,7 +263,7 @@ function inicioAlogin() {
         container.style.display = 'block';
         userLog.style.display = 'none'
         classCarrito.style.display = 'none'
-        selectEnvios.style.display= 'none'
+        selectEnvios.style.display = 'none'
     }
 }
 
@@ -402,13 +411,13 @@ document.querySelector(".btn-header-login").addEventListener("click", (event) =>
     inicioAlogin();
 })
 
-const eventPrecioEnvio=()=>{
-document.querySelector(".consulta-envio").addEventListener("click", (event) => {
-    event.preventDefault();
-    selectValue();
-    traerPrecioEnvio()
-    
-})
+const eventPrecioEnvio = () => {
+    document.querySelector(".consulta-envio").addEventListener("click", (event) => {
+        event.preventDefault();
+        selectValue();
+        traerPrecioEnvio()
+
+    })
 }
 
 
@@ -428,7 +437,12 @@ const addProduct = (btncarro) => {
     if (cart) {
         for (const element of cart) {
             if (element.id == btncarro) {
-                element.quantity++;
+                if (agregar) {
+                    element.quantity++;
+                }
+                if (quitar) {
+                    element.quantity--;
+                }
                 tipoProducto = element.tipo;
                 nombreProducto = element.modelo;
                 colorProducto = element.color;
@@ -441,13 +455,24 @@ const addProduct = (btncarro) => {
     localStorage.removeItem("cart");
     localStorage.setItem("cart", JSON.stringify(cartContent));
     console.log("cart: " + JSON.stringify(cartContent));
-    Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Se agregó el producto ' + tipoProducto + " " + nombreProducto + " " + colorProducto + '\n Suma al carrito $' + precioProducto,
-        showConfirmButton: false,
-        timer: 2000
-    })  
+    if (agregar) {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Se agregó el producto ' + tipoProducto + " " + nombreProducto + " " + colorProducto + '\n Suma al carrito $' + precioProducto,
+            showConfirmButton: false,
+            timer: 2000
+        })
+    }
+    if(quitar){
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Se quitó el producto ' + tipoProducto + " " + nombreProducto + " " + colorProducto + '\n Descuenta al carrito $' + precioProducto,
+            showConfirmButton: false,
+            timer: 2000
+        })
+    }
 }
 
 
@@ -455,10 +480,15 @@ const addProduct = (btncarro) => {
 const loadEvents = () => {
     let buttons = document.getElementsByClassName('btn-carrito');
     headerLogIn();
+
     for (let i = 0; i < buttons.length; i++) {
 
         let item = document.getElementsByClassName('btn-carrito')[i];
         item.addEventListener("click", () => {
+            agregar = true;
+            quitar = false;
+            console.log(agregar);
+            console.log(quitar);
             addProduct(item.id);
             login();
             showCart();
@@ -493,15 +523,14 @@ if (!cart) {
 recorrerCarrito(JSON.parse(cart));
 
 
-
 function recorrerCarrito(array) {
-    let sumaTotal=0;
+    let sumaTotal = 0;
     const divCarrito = document.querySelector('.carrito');
     divCarrito.innerHTML = ``
-    let tituloCart= document.createElement('div')
-    tituloCart.className='titulo-cart'
-    tituloCart.style='color:white'
-    tituloCart.innerHTML=`
+    let tituloCart = document.createElement('div')
+    tituloCart.className = 'titulo-cart'
+    tituloCart.style = 'color:white'
+    tituloCart.innerHTML = `
     <h4 class="cart-title">Tus productos</h4>
     `
     divCarrito.append(tituloCart)
@@ -515,26 +544,71 @@ function recorrerCarrito(array) {
             div.style = 'display: flex'
             div.style = 'color: white'
             div.innerHTML = `
-                <p class="card-text"> ${element.quantity} ${element.tipo} ${element.modelo} $  ${element.precio} total: $${suma} </p>
-                <button class="btn-quitar" id="${element.id}">Quitar 1</button>
+                <p class="card-text"> ${element.tipo} ${element.modelo} color ${element.color}  $${element.precio}  </p>
+                <div class="agregar-quitar">
+                <button class="btn-quitar" id="${element.id}"><</button>
+                <p class="cantidad"> ${element.quantity}</p>
+                <button class="btn-agregar" id="${element.id}">></button>
+                <p class="cantidad"> Total: $${suma}</p>
+                </div>
             </div>
         `
 
-        divCarrito.append(div);
+            divCarrito.append(div);
         }
+
     }
-    let divTotal =document.createElement('div');
+    let divTotal = document.createElement('div');
+    let totalCEnvio = sumaTotal + valorEnvio;
     divTotal.className = 'suma-total';
     divTotal.style = 'color : white'
-    divTotal.innerHTML= `
-    <p class="suma-total"> Valor total de la compra $${sumaTotal}</P>
+    divTotal.innerHTML = `
+    <p class="card-text"> El valor del envio es $${valorEnvio}</P>
+    <p class="card-text"> Te llegara en ${demoraEntrega} a la zona seleccionada.</P>
+    <p class="suma-total"> Valor total de la compra $${totalCEnvio}</P>
     `
     divCarrito.append(divTotal);
-    
+
 }
-function showCart () {
-        cart = (localStorage.getItem("cart"));
-        recorrerCarrito(JSON.parse(cart));
+
+const loadEventsBtnQuitar = () => {
+    let btnQuitar = document.getElementsByClassName('btn-quitar');
+    for (let i = 0; i < btnQuitar.length; i++) {
+
+        let item = document.getElementsByClassName('btn-quitar')[i];
+        item.addEventListener("click", () => {
+            agregar = false;
+            quitar = true;
+            console.log(agregar);
+            console.log(quitar);
+            addProduct(item.id);
+            login();
+            showCart();
+        });
+    }
+}
+const loadEventsBtnAgregar = () => {
+    let btnAgregar = document.getElementsByClassName('btn-agregar');
+    for (let i = 0; i < btnAgregar.length; i++) {
+
+        let item = document.getElementsByClassName('btn-agregar')[i];
+        item.addEventListener("click", () => {
+            agregar = true;
+            quitar = false;
+            console.log(agregar);
+            console.log(quitar);
+            addProduct(item.id);
+            login();
+            showCart();
+        });
+    }
+}
+
+function showCart() {
+    cart = (localStorage.getItem("cart"));
+    recorrerCarrito(JSON.parse(cart));
+    loadEventsBtnQuitar()
+    loadEventsBtnAgregar()
 }
 
 async function traerDatosHTML() {
@@ -543,61 +617,63 @@ async function traerDatosHTML() {
     enviosHTML(data);
 }
 
-const selectEnvios=document.querySelector('#envios');
+
 
 function enviosHTML(array) {
-    selectEnvios.innerHTML ='';
-    selectEnvios.innerHTML=`<div><option value="">Elige tu zona</option></div>`;
-    
+    selectEnvios.innerHTML = '';
+    selectEnvios.innerHTML = `<div><option value="">Elige tu zona</option></div>`;
+
     for (const element of array) {
         let options;
-        options=document.createElement('option');
-        options.innerText=element.Zona
-        options.value=element.Zona
+        options = document.createElement('option');
+        options.innerText = element.Zona
+        options.value = element.Zona
         selectEnvios.append(options);
     }
     const divSelect = document.querySelector('#selection');
-    const btnConsultaEnvio=document.createElement('button');
-    btnConsultaEnvio.className='consulta-envio';
-    btnConsultaEnvio.innerText= 'Consultar envio'
+    const btnConsultaEnvio = document.createElement('button');
+    btnConsultaEnvio.className = 'consulta-envio';
+    btnConsultaEnvio.innerText = 'Seleccionar envio'
     divSelect.append(btnConsultaEnvio);
-eventPrecioEnvio()
+    eventPrecioEnvio()
 }
-async function traerPrecioEnvio(){
+async function traerPrecioEnvio() {
     const respuesta = await fetch('./js/envios.json');
     const data = await respuesta.json();
     precioEnvio(data);
 }
 
-let valorEnvio;
-let demoraEntrega;
 
-function precioEnvio (array) {
+
+function precioEnvio(array) {
     let pValorEnvio;
     for (const element of array) {
-        if (element.Zona == selValue){
-            valorEnvio=element.precio;
-            demoraEntrega=element.Demora;
-            pValorEnvio=document.createElement('p');
-            pValorEnvio.className='precio-envio'
-            pValorEnvio.innerText=`$${element.precio}`;
+        if (element.Zona == selValue) {
+            valorEnvio = element.precio;
+            demoraEntrega = element.Demora;
+            pValorEnvio = document.createElement('p');
+            pValorEnvio.className = 'precio-envio'
+            pValorEnvio.innerText = `$${element.precio}`;
             selectEnvios.append(pValorEnvio);
         }
+        console.log(valorEnvio);
     }
     Swal.fire({
         position: 'top-end',
         icon: 'success',
-        title: 'El costo del envio es $' + valorEnvio + "\n Tu pedido llegará en  " + demoraEntrega+ " " ,
+        title: 'El costo del envio es $' + valorEnvio + "\n Tu pedido llegará en  " + demoraEntrega + " ",
         showConfirmButton: false,
         timer: 3000
-    })  
+    })
+    recorrerCarrito(JSON.parse(cart));
 }
 
-let selValue
-function selectValue () {
+
+
+function selectValue() {
 
     selValue = selectEnvios.options[selectEnvios.selectedIndex].value;
-    
+
 }
 
 recorrerProductos(productos)

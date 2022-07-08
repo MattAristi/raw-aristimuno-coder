@@ -254,14 +254,14 @@ main {
 .carrito{
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 90%;
     padding: 80px 20px;
     background: rgba(0, 0, 0, 0.678);
     position: relative;
     border-radius: 15px;
     justify-content: center;
     align-items: center;
-    display: none;
+    
     
 }
 .carrito #btn-acompra {
@@ -278,8 +278,18 @@ main {
 }
 .btn-quitar{
     padding: 10px 10px;
-    margin-top: 10px;
-    width: 100px;
+    width: 40px;
+    font-size: 14px;
+    background-color:rgba(0, 0, 0, 0.323) ;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none; 
+}
+.btn-agregar{
+    padding: 10px 10px;
+    width: 40px;
     font-size: 14px;
     background-color:rgba(0, 0, 0, 0.323) ;
     color: white;
@@ -300,16 +310,22 @@ main {
     font-size: 35px;
 }
 .container-carrito{
+    display: flex;
+    flex-direction: column;
     padding: 10px 10px;
     margin-top: 10px;
-    width: 100px;
+    width: 80%;
     font-size: 14px;
     background-color:rgba(0, 0, 0, 0.323) ;
     color: white;
     border-radius: 10px;
     cursor: pointer;
     outline: none;
-    text-decoration: none; 
+    text-decoration: none;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+    display: none;
 }
 .consulta-envio {
     padding: 10px 10px;
@@ -336,4 +352,24 @@ main {
     outline: none;
     text-decoration: none;
     display: none;  
+}
+.agregar-quitar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cantidad{
+    padding: 10px 10px;
+    margin-top: 14px;
+}
+.card-text{
+    margin-top: 20px;
+    margin-bottom: 0px;
+    font-size: 16px;
+}
+.cart{
+    width: 100%;
+}
+.precio-envio{
+    display: block;
 }
