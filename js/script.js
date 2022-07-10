@@ -23,6 +23,8 @@ let wrong = false;
 let agregar = false;
 let quitar = false;
 let selValue;
+let orden=8641;
+let cantidad;
 
 
 let valorEnvio = 0;
@@ -43,6 +45,13 @@ const adminLog = document.getElementById('adminlog')
 const divUserLog = document.getElementById('userlog');
 
 const selectEnvios = document.querySelector('#envios');
+
+    const btnACompras = document.getElementById('btn-a-compras')
+    const classCarrito = document.querySelector('.container-carrito')
+    const userLog = document.querySelector('.productos')
+    const btnCart = document.getElementById('btn-cart');
+    const btnConsultarEnvio = document.querySelector('.consulta-envio');
+    
 
 function loginForm() {
     if (window.innerWidth > 850) {
@@ -195,6 +204,7 @@ const recorrerProductos = (array) => {
                 <h4 class="card-title">${element.tipo}</h4>
                 <h5 class="card-title">${element.modelo}</h5>
                 <p class="card-text">$ ${element.precio}</p>
+                <p class="card-text">${element.cantidad} unidades disponibles.</p>
                 <button class="btn-carrito" id="${element.id}">Agregar al carrito</button>
             </div>
         </div>
@@ -215,45 +225,46 @@ const recorrerProductos = (array) => {
 
     }
     loadEvents();
+    eventCarrito();
 
 
 }
 
 function headerLogIn() {
-    const userLog = document.querySelector('.productos')
-    const classCarrito = document.querySelector('.container-carrito')
     const btnConsultarEnvio = document.querySelector('.consulta-envio');
+    const container = document.querySelector(".container")
     if (logIn) {
-        headerBtnLogin.style.display = 'none'
-        headerBtnLogout.style.display = 'block'
+        headerBtnLogin.style.display = 'none';
+        headerBtnLogout.style.display = 'block';
         container.style.display = 'none';
-        userLog.style.display = 'flex'
+        userLog.style.display = 'flex';
+        btnCart.style.display='block';
+        btnACompras.style.display='none'
+        imprimirBtnCantCarrito();
         if (cart) {
-            classCarrito.style.display = 'flex'
             selectEnvios.style.display = 'block'
             btnConsultarEnvio.style.display = 'block';
+            classCarrito.style.display='none';
         }
-        if (salidaAdmin) {
+    }
+    if (salidaAdmin) {
             headerBtnLogin.style.display = 'none'
             headerBtnLogout.style.display = 'block'
             container.style.display = 'none';
         }
-    }
+    
 }
 
 
 
 
 function inicioAlogin() {
-    const userLog = document.querySelector('.productos')
-    const classCarrito = document.querySelector('.container-carrito')
     const btnConsultarEnvio = document.querySelector('.consulta-envio');
     if (logIn == false) {
         headerBtnLogin.style.display = 'block'
         headerBtnLogout.style.display = 'none'
         container.style.display = 'block'
         userLog.style.display = 'none'
-        classCarrito.style.display = 'none'
         selectEnvios.style.display = 'none';
         btnConsultarEnvio.style.display = 'none';
     }
@@ -262,10 +273,38 @@ function inicioAlogin() {
         headerBtnLogout.style.display = 'none'
         container.style.display = 'block';
         userLog.style.display = 'none'
-        classCarrito.style.display = 'none'
         selectEnvios.style.display = 'none'
     }
 }
+
+function toCart () {
+    
+    classCarrito.style.display = 'flex'
+    userLog.style.display = 'none'
+    btnCart.style.display= 'none'; 
+    btnACompras.style.display='block'
+    eventACompras();
+
+}
+//
+//
+function compra() {
+    orden=orden+1
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Compra realizada con exito.  \n Orden de compra '+orden+'. \n Envie el  comprobante de pago junto con el numero de orden de compra a \n raw@pedidos.com' ,
+        showConfirmButton: false,
+        timer: 5000
+    })
+}
+function vaciarCarro () {
+    cantidad=0;
+    localStorage.removeItem("cart");
+    createCart();
+    showCart()
+}
+
 
 function administrador() {
     adminLog.innerHTML = `
@@ -378,8 +417,8 @@ class Producto {
     }
 }
 const productos = [
-    new Producto("Horquilla", "classic", 5000, "black", 20, '../imagenesraw/horquillafork.jpg', 1),
-    new Producto("Horquilla", "recta", 6000, "black", 20, '../imagenesraw/horquillafork2.jpg', 2),
+    new Producto("Horquilla", "CLASSIC", 5000, "black", 20, '../imagenesraw/horquillafork.jpg', 1),
+    new Producto("Horquilla", "RECTA", 6000, "black", 20, '../imagenesraw/horquillafork2.jpg', 2),
     new Producto("Cuadro", "HARSH", 20000, "black", 20, '../imagenesraw/harshv2blk.jpg', 3),
     new Producto("Cuadro", "HARSH", 20000, "white", 20, '../imagenesraw/harshv2raw2.jpg', 4),
     new Producto("Cuadro", "NIGTHROO", 23000, "black", 20, '../imagenesraw/nightrodblk.jpg', 5),
@@ -417,6 +456,34 @@ const eventPrecioEnvio = () => {
         selectValue();
         traerPrecioEnvio()
 
+    })
+}
+const eventCarrito = () => {
+    if (logIn){
+    document.getElementById("btn-cart").addEventListener("click", (event) => {
+        event.preventDefault();
+        toCart();
+    })
+}
+}
+const eventACompras = () => {
+    document.getElementById("btn-a-compras").addEventListener("click", (event) => {
+        event.preventDefault();
+        headerLogIn()
+        imprimirBtnCantCarrito
+    })
+}
+const eventComprar = () => {
+    document.getElementById("btn-compra").addEventListener("click", (event) => {
+        event.preventDefault();
+        compra()
+        vaciarCarro()
+    })
+}
+const eventVaciar = () => {
+    document.getElementById("vaciar-carro").addEventListener("click", (event) => {
+        event.preventDefault();
+        vaciarCarro()
     })
 }
 
@@ -487,11 +554,9 @@ const loadEvents = () => {
         item.addEventListener("click", () => {
             agregar = true;
             quitar = false;
-            console.log(agregar);
-            console.log(quitar);
             addProduct(item.id);
-            login();
             showCart();
+            imprimirBtnCantCarrito();
         });
     }
 }
@@ -534,8 +599,10 @@ function recorrerCarrito(array) {
     <h4 class="cart-title">Tus productos</h4>
     `
     divCarrito.append(tituloCart)
+    cantidad=0;
     for (const element of array) {
         if (element.quantity != 0) {
+            cantidad=cantidad+element.quantity;
             let suma = 0;
             suma = suma + (element.quantity * element.precio);
             sumaTotal = sumaTotal + (element.quantity * element.precio);
@@ -568,7 +635,15 @@ function recorrerCarrito(array) {
     <p class="suma-total"> Valor total de la compra $${totalCEnvio}</P>
     `
     divCarrito.append(divTotal);
+    eventComprar()
+    eventVaciar()
 
+}
+
+function imprimirBtnCantCarrito (){
+    btnCart.innerText=''
+    if (cantidad != 0)
+    btnCart.innerText = ' '+cantidad+' productos' ;
 }
 
 const loadEventsBtnQuitar = () => {
@@ -582,7 +657,6 @@ const loadEventsBtnQuitar = () => {
             console.log(agregar);
             console.log(quitar);
             addProduct(item.id);
-            login();
             showCart();
         });
     }
@@ -598,7 +672,6 @@ const loadEventsBtnAgregar = () => {
             console.log(agregar);
             console.log(quitar);
             addProduct(item.id);
-            login();
             showCart();
         });
     }
@@ -679,7 +752,7 @@ function selectValue() {
 recorrerProductos(productos)
 traerDatosHTML()
 
-btnConsultaEnvio.addEventListener('click', () => {
+btnConsultarEnvio.addEventListener('click', () => {
     selectValue();
     traerPrecioEnvio();
 })
