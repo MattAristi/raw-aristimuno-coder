@@ -23,7 +23,7 @@ let wrong = false;
 let agregar = false;
 let quitar = false;
 let selValue;
-let orden=8641;
+let orden = 8641;
 let cantidad;
 
 
@@ -46,12 +46,37 @@ const divUserLog = document.getElementById('userlog');
 
 const selectEnvios = document.querySelector('#envios');
 
-    const btnACompras = document.getElementById('btn-a-compras')
-    const classCarrito = document.querySelector('.container-carrito')
-    const userLog = document.querySelector('.productos')
-    const btnCart = document.getElementById('btn-cart');
-    const btnConsultarEnvio = document.querySelector('.consulta-envio');
-    
+const btnACompras = document.getElementById('btn-a-compras')
+const classCarrito = document.querySelector('.container-carrito')
+const userLog = document.querySelector('.productos')
+const btnCart = document.getElementById('btn-cart');
+const btnConsultarEnvio = document.querySelector('.consulta-envio');
+
+class Producto {
+    constructor(tipo, modelo, precio, color, cantidad, img, id) {
+        this.tipo = tipo;
+        this.modelo = modelo;
+        this.precio = precio;
+        this.color = color;
+        this.cantidad = cantidad;
+        this.img = img;
+        this.id = id;
+    }
+    asignarId(array) {
+        this.id = array.length;
+    }
+}
+const productos = [
+    new Producto("Horquilla", "CLASSIC", 5000, "black", 20, 'imagenesraw/horquillafork.jpg', 1),
+    new Producto("Horquilla", "RECTA", 6000, "black", 20, 'imagenesraw/horquillafork2.jpg', 2),
+    new Producto("Cuadro", "HARSH", 20000, "black", 20, 'imagenesraw/harshv2blk.jpg', 3),
+    new Producto("Cuadro", "HARSH", 20000, "white", 20, 'imagenesraw/harshv2raw2.jpg', 4),
+    new Producto("Cuadro", "NIGTHROO", 23000, "black", 20, 'imagenesraw/nightrodblk.jpg', 5),
+    new Producto("Cuadro", "NIGTHROO", 23000, "red", 20, 'imagenesraw/nightrodraw.jpg', 6),
+    new Producto("Cuadro", "KLR wolf", 25000, "black", 20, 'imagenesraw/klrwolf.jpg', 7),
+    new Producto("Cuadro", "KLR wolf", 25000, "blue", 20, 'imagenesraw/klrwolfblue.jpg', 8),
+
+]
 
 function loginForm() {
     if (window.innerWidth > 850) {
@@ -229,6 +254,7 @@ const recorrerProductos = (array) => {
 
 
 }
+recorrerProductos(productos);
 
 function headerLogIn() {
     const btnConsultarEnvio = document.querySelector('.consulta-envio');
@@ -238,21 +264,21 @@ function headerLogIn() {
         headerBtnLogout.style.display = 'block';
         container.style.display = 'none';
         userLog.style.display = 'flex';
-        btnCart.style.display='block';
-        btnACompras.style.display='none'
+        btnCart.style.display = 'block';
+        btnACompras.style.display = 'none'
         imprimirBtnCantCarrito();
         if (cart) {
             selectEnvios.style.display = 'block'
             btnConsultarEnvio.style.display = 'block';
-            classCarrito.style.display='none';
+            classCarrito.style.display = 'none';
         }
     }
     if (salidaAdmin) {
-            headerBtnLogin.style.display = 'none'
-            headerBtnLogout.style.display = 'block'
-            container.style.display = 'none';
-        }
-    
+        headerBtnLogin.style.display = 'none'
+        headerBtnLogout.style.display = 'block'
+        container.style.display = 'none';
+    }
+
 }
 
 
@@ -277,29 +303,29 @@ function inicioAlogin() {
     }
 }
 
-function toCart () {
-    
+function toCart() {
+
     classCarrito.style.display = 'flex'
     userLog.style.display = 'none'
-    btnCart.style.display= 'none'; 
-    btnACompras.style.display='block'
+    btnCart.style.display = 'none';
+    btnACompras.style.display = 'block'
     eventACompras();
 
 }
-//
-//
+
 function compra() {
-    orden=orden+1
+    orden = orden + 1
     Swal.fire({
         position: 'top-end',
         icon: 'success',
-        title: 'Compra realizada con exito.  \n Orden de compra '+orden+'. \n Envie el  comprobante de pago junto con el numero de orden de compra a \n raw@pedidos.com' ,
+        title: 'Compra realizada con exito.  \n Orden de compra ' + orden + '. \n Envie el  comprobante de pago junto con el numero de orden de compra a \n raw@pedidos.com',
         showConfirmButton: false,
         timer: 5000
     })
 }
-function vaciarCarro () {
-    cantidad=0;
+
+function vaciarCarro() {
+    cantidad = 0;
     localStorage.removeItem("cart");
     createCart();
     showCart()
@@ -401,32 +427,7 @@ function administrador() {
 }
 
 
-class Producto {
-    constructor(tipo, modelo, precio, color, cantidad, img, id) {
-        this.tipo = tipo;
-        this.modelo = modelo;
-        this.precio = precio;
-        this.color = color;
-        this.cantidad = cantidad;
-        this.img = img;
-        this.id = id;
 
-    }
-    asignarId(array) {
-        this.id = array.length;
-    }
-}
-const productos = [
-    new Producto("Horquilla", "CLASSIC", 5000, "black", 20, 'imagenesraw/horquillafork.jpg', 1),
-    new Producto("Horquilla", "RECTA", 6000, "black", 20, 'imagenesraw/horquillafork2.jpg', 2),
-    new Producto("Cuadro", "HARSH", 20000, "black", 20, 'imagenesraw/harshv2blk.jpg', 3),
-    new Producto("Cuadro", "HARSH", 20000, "white", 20, 'imagenesraw/harshv2raw2.jpg', 4),
-    new Producto("Cuadro", "NIGTHROO", 23000, "black", 20, 'imagenesraw/nightrodblk.jpg', 5),
-    new Producto("Cuadro", "NIGTHROO", 23000, "red", 20, 'imagenesraw/nightrodraw.jpg', 6),
-    new Producto("Cuadro", "KLR wolf", 25000, "black", 20, 'imagenesraw/klrwolf.jpg', 7),
-    new Producto("Cuadro", "KLR wolf", 25000, "blue", 20, 'imagenesraw/klrwolfblue.jpg', 8),
-
-]
 
 
 
@@ -459,12 +460,12 @@ const eventPrecioEnvio = () => {
     })
 }
 const eventCarrito = () => {
-    if (logIn){
-    document.getElementById("btn-cart").addEventListener("click", (event) => {
-        event.preventDefault();
-        toCart();
-    })
-}
+    if (logIn) {
+        document.getElementById("btn-cart").addEventListener("click", (event) => {
+            event.preventDefault();
+            toCart();
+        })
+    }
 }
 const eventACompras = () => {
     document.getElementById("btn-a-compras").addEventListener("click", (event) => {
@@ -531,7 +532,7 @@ const addProduct = (btncarro) => {
             timer: 2000
         })
     }
-    if(quitar){
+    if (quitar) {
         Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -599,10 +600,10 @@ function recorrerCarrito(array) {
     <h4 class="cart-title">Tus productos</h4>
     `
     divCarrito.append(tituloCart)
-    cantidad=0;
+    cantidad = 0;
     for (const element of array) {
         if (element.quantity != 0) {
-            cantidad=cantidad+element.quantity;
+            cantidad = cantidad + element.quantity;
             let suma = 0;
             suma = suma + (element.quantity * element.precio);
             sumaTotal = sumaTotal + (element.quantity * element.precio);
@@ -640,10 +641,10 @@ function recorrerCarrito(array) {
 
 }
 
-function imprimirBtnCantCarrito (){
-    btnCart.innerText=''
+function imprimirBtnCantCarrito() {
+    btnCart.innerText = ''
     if (cantidad != 0)
-    btnCart.innerText = ' '+cantidad+' productos' ;
+        btnCart.innerText = ' ' + cantidad + ' productos';
 }
 
 const loadEventsBtnQuitar = () => {
