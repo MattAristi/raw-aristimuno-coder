@@ -417,14 +417,14 @@ class Producto {
     }
 }
 const productos = [
-    new Producto("Horquilla", "CLASSIC", 5000, "black", 20, '../imagenesraw/horquillafork.jpg', 1),
-    new Producto("Horquilla", "RECTA", 6000, "black", 20, '../imagenesraw/horquillafork2.jpg', 2),
-    new Producto("Cuadro", "HARSH", 20000, "black", 20, '../imagenesraw/harshv2blk.jpg', 3),
-    new Producto("Cuadro", "HARSH", 20000, "white", 20, '../imagenesraw/harshv2raw2.jpg', 4),
-    new Producto("Cuadro", "NIGTHROO", 23000, "black", 20, '../imagenesraw/nightrodblk.jpg', 5),
-    new Producto("Cuadro", "NIGTHROO", 23000, "red", 20, '../imagenesraw/nightrodraw.jpg', 6),
-    new Producto("Cuadro", "KLR wolf", 25000, "black", 20, '../imagenesraw/klrwolf.jpg', 7),
-    new Producto("Cuadro", "KLR wolf", 25000, "blue", 20, '../imagenesraw/klrwolfblue.jpg', 8),
+    new Producto("Horquilla", "CLASSIC", 5000, "black", 20, './imagenesraw/horquillafork.jpg', 1),
+    new Producto("Horquilla", "RECTA", 6000, "black", 20, './imagenesraw/horquillafork2.jpg', 2),
+    new Producto("Cuadro", "HARSH", 20000, "black", 20, './imagenesraw/harshv2blk.jpg', 3),
+    new Producto("Cuadro", "HARSH", 20000, "white", 20, './imagenesraw/harshv2raw2.jpg', 4),
+    new Producto("Cuadro", "NIGTHROO", 23000, "black", 20, './imagenesraw/nightrodblk.jpg', 5),
+    new Producto("Cuadro", "NIGTHROO", 23000, "red", 20, './imagenesraw/nightrodraw.jpg', 6),
+    new Producto("Cuadro", "KLR wolf", 25000, "black", 20, './imagenesraw/klrwolf.jpg', 7),
+    new Producto("Cuadro", "KLR wolf", 25000, "blue", 20, './imagenesraw/klrwolfblue.jpg', 8),
 
 ]
 
