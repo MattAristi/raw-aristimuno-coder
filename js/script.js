@@ -189,8 +189,10 @@ function login() {
         document.querySelector("#email-usuario").value = "";
         document.querySelector("#password").value = "";
         recorrerProductos(productos);
+        loadEvents();
         showCart()
         headerLogIn()
+        eventCarrito();
     }
     if (userEmail == userEmail1 && userPasword != userPasword1 && userEmail1 != adminEmail) {
         wrongPassword.style.display = 'block'
@@ -249,8 +251,8 @@ const recorrerProductos = (array) => {
         }
 
     }
-    loadEvents();
-    eventCarrito();
+    
+    
 
 
 }
@@ -487,6 +489,12 @@ const eventVaciar = () => {
         vaciarCarro()
     })
 }
+const eventConsultarEnvio = () => {
+    btnConsultarEnvio.addEventListener("click", (event) => {
+        event.preventDefault();
+        vaciarCarro()
+    })
+}
 
 
 // carro
@@ -683,6 +691,7 @@ function showCart() {
     recorrerCarrito(JSON.parse(cart));
     loadEventsBtnQuitar()
     loadEventsBtnAgregar()
+    eventConsultarEnvio()
 }
 
 async function traerDatosHTML() {
@@ -752,8 +761,3 @@ function selectValue() {
 
 recorrerProductos(productos)
 traerDatosHTML()
-
-btnConsultarEnvio.addEventListener('click', () => {
-    selectValue();
-    traerPrecioEnvio();
-})
