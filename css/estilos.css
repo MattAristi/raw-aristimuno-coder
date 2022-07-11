@@ -384,6 +384,7 @@ main {
     margin-top: 0px;
     margin-bottom: 0px;
     font-size: 16px;
+    display: block;
 }
 .cart{
     width: 100%;

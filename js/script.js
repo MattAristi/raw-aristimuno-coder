@@ -24,7 +24,7 @@ let agregar = false;
 let quitar = false;
 let selValue;
 let orden = 8641;
-let cantidad;
+let cantEnCarro;
 
 
 let valorEnvio = 0;
@@ -231,7 +231,6 @@ const recorrerProductos = (array) => {
                 <h4 class="card-title">${element.tipo}</h4>
                 <h5 class="card-title">${element.modelo}</h5>
                 <p class="card-text">$ ${element.precio}</p>
-                <p class="card-text">${element.cantidad} unidades disponibles.</p>
                 <button class="btn-carrito" id="${element.id}">Agregar al carrito</button>
             </div>
         </div>
@@ -316,23 +315,28 @@ function toCart() {
 }
 
 function compra() {
-    orden = orden + 1
+    
+    orden = (orden + 1);
     Swal.fire({
         position: 'top-end',
         icon: 'success',
         title: 'Compra realizada con exito.  \n Orden de compra ' + orden + '. \n Envie el  comprobante de pago junto con el numero de orden de compra a \n raw@pedidos.com',
         showConfirmButton: false,
         timer: 5000
-    })
+        })
+    vaciarCarro();
 }
 
 function vaciarCarro() {
-    cantidad = 0;
+    eraseValue();
+    cantEnCarro = 0;
     localStorage.removeItem("cart");
+    traerDatosHTML();
+    traerPrecioEnvio();
     createCart();
-    showCart()
+    showCart();
+    
 }
-
 
 function administrador() {
     adminLog.innerHTML = `
@@ -453,14 +457,6 @@ document.querySelector(".btn-header-login").addEventListener("click", (event) =>
     inicioAlogin();
 })
 
-const eventPrecioEnvio = () => {
-    document.querySelector(".consulta-envio").addEventListener("click", (event) => {
-        event.preventDefault();
-        selectValue();
-        traerPrecioEnvio()
-
-    })
-}
 const eventCarrito = () => {
     if (logIn) {
         document.getElementById("btn-cart").addEventListener("click", (event) => {
@@ -479,8 +475,9 @@ const eventACompras = () => {
 const eventComprar = () => {
     document.getElementById("btn-compra").addEventListener("click", (event) => {
         event.preventDefault();
-        compra()
-        vaciarCarro()
+        if (cantEnCarro!=0){
+            compra() 
+        }
     })
 }
 const eventVaciar = () => {
@@ -490,9 +487,10 @@ const eventVaciar = () => {
     })
 }
 const eventConsultarEnvio = () => {
-    btnConsultarEnvio.addEventListener("click", (event) => {
+    document.querySelector('.consulta-envio').addEventListener("click", (event) => {
         event.preventDefault();
-        vaciarCarro()
+        selectValue()
+        traerPrecioEnvio()
     })
 }
 
@@ -530,7 +528,6 @@ const addProduct = (btncarro) => {
 
     localStorage.removeItem("cart");
     localStorage.setItem("cart", JSON.stringify(cartContent));
-    console.log("cart: " + JSON.stringify(cartContent));
     if (agregar) {
         Swal.fire({
             position: 'top-end',
@@ -608,10 +605,10 @@ function recorrerCarrito(array) {
     <h4 class="cart-title">Tus productos</h4>
     `
     divCarrito.append(tituloCart)
-    cantidad = 0;
+    cantEnCarro = 0;
     for (const element of array) {
         if (element.quantity != 0) {
-            cantidad = cantidad + element.quantity;
+            cantEnCarro = cantEnCarro + element.quantity;
             let suma = 0;
             suma = suma + (element.quantity * element.precio);
             sumaTotal = sumaTotal + (element.quantity * element.precio);
@@ -635,6 +632,7 @@ function recorrerCarrito(array) {
 
     }
     let divTotal = document.createElement('div');
+    divTotal.innerHTML='';
     let totalCEnvio = sumaTotal + valorEnvio;
     divTotal.className = 'suma-total';
     divTotal.style = 'color : white'
@@ -643,16 +641,20 @@ function recorrerCarrito(array) {
     <p class="card-text"> Te llegara en ${demoraEntrega} a la zona seleccionada.</P>
     <p class="suma-total"> Valor total de la compra $${totalCEnvio}</P>
     `
+    if(valorEnvio!=0){
     divCarrito.append(divTotal);
+    }
+    if (cantEnCarro!=0) {
     eventComprar()
     eventVaciar()
-
+    }
 }
 
 function imprimirBtnCantCarrito() {
     btnCart.innerText = ''
-    if (cantidad != 0)
-        btnCart.innerText = ' ' + cantidad + ' productos';
+    if (cantEnCarro != 0){
+        btnCart.innerText = ' ' + cantEnCarro + ' productos';
+}
 }
 
 const loadEventsBtnQuitar = () => {
@@ -663,8 +665,6 @@ const loadEventsBtnQuitar = () => {
         item.addEventListener("click", () => {
             agregar = false;
             quitar = true;
-            console.log(agregar);
-            console.log(quitar);
             addProduct(item.id);
             showCart();
         });
@@ -678,8 +678,6 @@ const loadEventsBtnAgregar = () => {
         item.addEventListener("click", () => {
             agregar = true;
             quitar = false;
-            console.log(agregar);
-            console.log(quitar);
             addProduct(item.id);
             showCart();
         });
@@ -718,7 +716,7 @@ function enviosHTML(array) {
     btnConsultaEnvio.className = 'consulta-envio';
     btnConsultaEnvio.innerText = 'Seleccionar envio'
     divSelect.append(btnConsultaEnvio);
-    eventPrecioEnvio()
+    eventConsultarEnvio()
 }
 async function traerPrecioEnvio() {
     const respuesta = await fetch('./js/envios.json');
@@ -730,6 +728,8 @@ async function traerPrecioEnvio() {
 
 function precioEnvio(array) {
     let pValorEnvio;
+    valorEnvio=0;
+    demoraEntrega=0;
     for (const element of array) {
         if (element.Zona == selValue) {
             valorEnvio = element.precio;
@@ -739,16 +739,12 @@ function precioEnvio(array) {
             pValorEnvio.innerText = `$${element.precio}`;
             selectEnvios.append(pValorEnvio);
         }
-        console.log(valorEnvio);
+        
     }
-    Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'El costo del envio es $' + valorEnvio + "\n Tu pedido llegará en  " + demoraEntrega + " ",
-        showConfirmButton: false,
-        timer: 3000
-    })
+    
     recorrerCarrito(JSON.parse(cart));
+    loadEventsBtnQuitar()
+    loadEventsBtnAgregar()
 }
 
 
@@ -759,5 +755,8 @@ function selectValue() {
 
 }
 
-recorrerProductos(productos)
+function eraseValue () {
+    selValue ='';
+    }
+
 traerDatosHTML()
