@@ -2,19 +2,19 @@ descripcion de funcinamiento de mi proyecto.
 
 LOGIN
 El login tiene un usuario y contraseña de administrador hardcodeado
-Por otra parte en el login se pueden generar usuarios que se guardan en el localstorage. Te podes loguear con cualquiera 
-de los usuarios generados en ese localstorage. 
+Por otra parte en el login se pueden generar usuarios que se guardan en el localstoragey si el usuario ya habia 
+sido generado con ese e-mail, te avisa que ya hay un usuario con ese mail .
+ Te podes loguear con cualquiera de los usuarios generados en ese localstorage. 
 
 Al generar el usuario el sitio te lleva a la seccion de login. si el usuario no existe te avisa que los datos ingresados 
 no son correctos y limpia ambos inputs. y en caso de que el usuario exista y este mal la contraseña avisa que la contraseña
  es incorrecta y solo limpia el campo de la contraseña.
 
- una vez logueado aparece un boton de Logout en el header.
+ una vez logueado aparece un boton de Logout en el header para poder desloguearte.
 
 PRODUCTOS 
-Los productos estan en un array y las cards que muestran los productos se generan una vez que el usuario se loguea. En 
-cada card hay un boton para agregar el producto al carro que estará ligado al usuario registrado (esta opcion de
- ligar el carro al usuario no está funcional aún)
+Los productos estan en un array y las cards que muestran los productos se generan en una version de muestra de productos, 
+una vez que el usuario se loguea, en cada card, aparece un boton para poder agregar el producto al carro.
 
  ADMINISTRADOR
  El login tiene un usuario y contraseña de administrador hardcodeado (usuario "admin@raw.com" y contraseña "x") 
@@ -22,7 +22,15 @@ ingresando como administrador tenes la posibilidad de crear un nuevo producto, o
 el precio o podes agregar o quitar can tidad en el stock de productos. (esta sección está en producción)
 
 
-Para el desafio Fetch
+Carro de compras
 
-Hardcodee un archivo Json con datos de envios. por ahora solo funciona correctamente recorriendolo para generar un 
-select del que voy a extraer informacion e incluirla al carrito.
+A medida que se van agregando productos, se ve en el botón del carrito la cantidad de productos seleccionados. 
+una vez terminada la seleccion de productos podes chequear en el carrito el detalle de la compra, y tambien agregar 
+o quitar productos de los ya seleccionados.
+Una vez en el carrito de compras aparece un select generado de manera dinamica con options donde podes elegir la zona
+donde recibirias los productos, una vez que seleccionas las zona deseada, el detalle del envio aparece al final del 
+carrito, para eso hardcodee un archivo Json con datos de envios.
+Existen dos botones en el carrito uno para realizar la compra que guenera un sweet alert y vacia el carrito. y el
+otro boton solo vacia el carrito.
+para salir del carro hay un boton para volver a los productos. se puede entrar y salir del carrito para continuar la 
+compra y si te deslogueas al volver a loguearte el carrito está como lo habias dejado guardado en el localstorage.
